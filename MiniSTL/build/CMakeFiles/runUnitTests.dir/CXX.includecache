@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/simple_allocator.h
+stddef.h
+-
+stdlib.h
+-
+limits.h
+-
+iostream
+-
+new
+-
+
+/home/chs/my_stl_learning/MiniSTL/test/AllocatorTest.cpp
+vector
+-
+../src/Allocator/simple_allocator.h
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/simple_allocator.h
+gtest/gtest.h
+/home/chs/my_stl_learning/MiniSTL/test/gtest/gtest.h
+

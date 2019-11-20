@@ -1,0 +1,15 @@
+/*
+ * @Author: haha_giraffe
+ * @Date: 2019-11-19 21:53:11
+ * @Description: typetraits
+ */
+#ifndef MINISTL_SRC_ALLOCATOR_ITERATOR_TYPETRAITS_H
+#define MINISTL_SRC_ALLOCATOR_ITERATOR_TYPETRAITS_H
+
+namespace MINISTL{
+
+
+
+}   //MINISTL
+
+#endif //MINISTL_SRC_ALLOCATOR_ITERATOR_TYPETRAITS_H

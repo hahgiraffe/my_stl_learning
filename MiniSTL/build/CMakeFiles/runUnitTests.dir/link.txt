@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/runUnitTests.dir/test/AllocatorTest.cpp.o  -o bin/runUnitTests  -L/usr/local/jemalloc/lib -Wl,-rpath,/usr/local/jemalloc/lib -lgtest -lpthread -ljemalloc 
