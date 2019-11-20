@@ -15,6 +15,21 @@ namespace MINISTL{
 template <typename T,typename Alloc = __default_alloc>
 class allocator{
 public:
+    //这些就是标准中规定的，一个allocator所必须具备的
+    typedef T value_type;
+    typedef T* pointer;
+    typedef const T* const_pointer;
+    typedef T& reference;
+    typedef const T& const_reference;
+    typedef size_t size_type;
+    typedef ptrdiff_t difference_type;
+    
+    template <typename U>
+    struct rebind{
+        typedef allocator<U> other;
+    };
+
+public:
     //allocate
     static T* allocate(size_t n){
         return 0 == n ? 0 : (T*) Alloc::allocate(n * sizeof(T));

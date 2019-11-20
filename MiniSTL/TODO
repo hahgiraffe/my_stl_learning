@@ -1,4 +1,4 @@
-1. Allocator （10/100） 
+1. Allocator （50/100） 
 * construct.h中有运用到type_traits，有待完善
 
 2. Iterator  （0/100）

@@ -4,7 +4,9 @@
  * @Description: 测试Allocator
  */
 #include <vector>
+#include <list>
 #include "../src/Allocator/simple_allocator.h"
+#include "../src/Allocator/allocator.h"
 #include "gtest/gtest.h"
 
 //测试simple_allocator
@@ -26,7 +28,12 @@ TEST(AllocatorTest,SimpleAllocatorTest){
 
 //测试可二次分配的allocator
 TEST(AllocatorTest,DoubleAllocatorTest){
-
+    std::list<std::string,MINISTL::allocator<std::string>> ls;
+    ls.push_front("kill");
+    ls.push_back("bill");
+    EXPECT_EQ(ls.size(),2);
+    EXPECT_EQ(ls.front(),"kill");
+    
 }
 
 
