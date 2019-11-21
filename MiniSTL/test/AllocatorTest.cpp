@@ -26,13 +26,14 @@ TEST(AllocatorTest,SimpleAllocatorTest){
     EXPECT_EQ(vec.capacity(),1000);
 }
 
-//测试可二次分配的allocator
+//测试可二次分配的allocator，这个部分可能存在内存泄漏
 TEST(AllocatorTest,DoubleAllocatorTest){
-    std::list<std::string,MINISTL::allocator<std::string>> ls;
-    ls.push_front("kill");
-    ls.push_back("bill");
-    EXPECT_EQ(ls.size(),2);
-    EXPECT_EQ(ls.front(),"kill");
+    std::vector<std::string,MINISTL::allocator<std::string>> vec;
+    for(int i=0;i<10;++i){
+        vec.push_back(std::to_string(i));
+    }
+    EXPECT_EQ(vec.size(),10);
+    EXPECT_EQ(vec.front(),"0");
     
 }
 

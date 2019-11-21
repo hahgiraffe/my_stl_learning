@@ -1,0 +1,15 @@
+/*
+ * @Author: haha_giraffe
+ * @Date: 2019-11-21 16:50:39
+ * @Description: Iterator主体
+ */
+#ifndef MINISTL_SRC_ALLOCATOR_ITERATOR_STL_ITERATOR_H
+#define MINISTL_SRC_ALLOCATOR_ITERATOR_STL_ITERATOR_H
+
+namespace MINISTL{
+
+
+
+}   //MINISTL
+
+#endif //MINISTL_SRC_ALLOCATOR_ITERATOR_STL_ITERATOR_H

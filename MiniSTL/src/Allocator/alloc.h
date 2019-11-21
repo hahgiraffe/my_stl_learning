@@ -199,10 +199,46 @@ void* __default_alloc::refill(size_t n){
     return result;
 }
 /* 
-    小块内存内存池的实现
+    小块内存内存池的实现,size为一块内存的大小，nobjs默认为20
 */
 char* __default_alloc::chunk_alloc(size_t size, int& nobjs){
-
+    char* result;
+    size_t total_bytes = size * nobjs;
+    size_t bytes_left = end_free - start_free;  //内存剩余量
+    if(bytes_left >= total_bytes){
+        //当申请的内存小于内存池中的剩余量
+        result = start_free;
+        start_free += total_bytes;
+        return result;
+    }
+    else if(bytes_left >= size){
+        //当bytes_left < total_bytes 但是剩余量大于申请一块的内存
+        nobjs = bytes_left / size;
+        total_bytes = size * nobjs;
+        result = start_free;
+        start_free += total_bytes;
+        return result;
+    }
+    else{
+        //bytes_left < size
+        size_t bytes_to_get = 2 * total_bytes + ROUND_UP(heap_size>>4);
+        if(bytes_left > 0){
+            //当bytes_left还有一点剩余,free_list中找到合适的位置，将其插入
+            obj* volatile *myfreelist = free_lists + FREELIST_INDEX(bytes_left);
+            ((obj*)start_free) ->free_list_link = *myfreelist;
+            *myfreelist = (obj*)start_free;
+        }
+        //接下来malloc内存存放到内存池
+        start_free = (char*)malloc(bytes_to_get);
+        if(start_free == 0){
+            //失败，则调用一级分配器，oom机制抛出异常
+            end_free = 0;
+            start_free = (char*)malloc_alloc::allocate(bytes_to_get);
+        }
+        heap_size += bytes_to_get;
+        end_free = start_free + bytes_to_get;
+        return(chunk_alloc(size,nobjs));//最后再次调用chunk_alloc取得内存
+    }
 }
 
 }   //MINISTL

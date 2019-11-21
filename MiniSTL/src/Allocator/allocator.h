@@ -7,6 +7,7 @@
 #define MINI_STL_SRC_ALLOCATOR_ALLOCATOR_H
 #include "alloc.h"
 #include "construct.h"
+#include <iostream>
 
 namespace MINISTL{
 
@@ -48,7 +49,7 @@ public:
         Alloc::deallocate(p, sizeof(T));
     }
     
-    //construct
+    //construct placement new 完成
     static void construct(T *ptr){
         new (ptr) T();
     }
@@ -58,9 +59,11 @@ public:
     
     //destroy
     static void destroy(T *ptr){
+        // std::cout<<"111"<<std::endl;
         ptr->~T();
     }
     static void destroy(T *first, T *last){
+        // std::cout<<"222"<<std::endl;
         for(;first!=last;first++){
             first->~T();
         }

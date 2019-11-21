@@ -30,14 +30,14 @@ inline void destroy(ForwardIterator first, ForwardIterator last){
 
 //如果有non-trivial destructor,则可以直接遍历两个迭代器调用析构函数
 template <class ForwardIterator>
-inline void _destroy_aux(ForwardIterator first, ForwardIterator last, _false_type) {
+inline void _destroy_aux(ForwardIterator first, ForwardIterator last, __false_type) {
     for (; first != last; ++first)
         destroy(&*first); 
 }
 
 // 存在trivial destructor,则忽视即可
 template <class ForwardIterator> 
-inline void _destroy_aux(ForwardIterator, ForwardIterator, _true_type) {}
+inline void _destroy_aux(ForwardIterator, ForwardIterator, __true_type) {}
 
 //destroy的偏特化版本
 inline void destroy(char*, char*){ }

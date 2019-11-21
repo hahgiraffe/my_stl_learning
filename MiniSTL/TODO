@@ -1,7 +1,12 @@
-1. Allocator （50/100） 
-* construct.h中有运用到type_traits，有待完善
-
+1. Allocator （80/100） 
+* simple_allocator完成及测试
+* allocator整体接口完成
+* alloc申请内存空间功能完成及测试
+* construct完成构造和destruct析构
+* uninitialized_copy() uninitialized_fill() uninitialized_fill_n()未完成
 2. Iterator  （0/100）
+* Iterator类完成及测试
+* typetraits类型萃取剂完成
 3. Functor   （0/100）
 4. Algorithm （0/100）
 5. Container （0/100）
