@@ -1,13 +1,24 @@
 1. Allocator （80/100） 
-* simple_allocator完成及测试
-* allocator整体接口完成
-* alloc申请内存空间功能完成及测试
-* construct完成构造和destruct析构
-* uninitialized_copy() uninitialized_fill() uninitialized_fill_n()未完成
+* ~~simple_allocator完成及测试~~
+* ~~allocator整体接口完成~~
+* ~~alloc申请内存空间功能完成及测试~~
+* ~~construct完成构造和destruct析构~~
+* uninitialized_copy() uninitialized_fill() uninitialized_fill_n()完成(fill,fill_n,copy)
 2. Iterator  （0/100）
 * Iterator类完成及测试
 * typetraits类型萃取剂完成
-3. Functor   （0/100）
+3. Container （0/100）
+* vector
+* list
+* deque
+* queue
+* stak
+* map
+* set
+* slist
+* priority_queue
+* unordered_map
+* unordered_set
 4. Algorithm （0/100）
-5. Container （0/100）
+5. Functor   （0/100）
 6. Adaptor   （0/100）
