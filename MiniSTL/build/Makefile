@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/chs/my_stl_learning/MiniSTL/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -77,6 +66,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,17 +111,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named runUnitTests
+# Target rules for targets named Allocatortest
 
 # Build rule for target.
-runUnitTests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 runUnitTests
-.PHONY : runUnitTests
+Allocatortest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Allocatortest
+.PHONY : Allocatortest
 
 # fast build rule for target.
-runUnitTests/fast:
-	$(MAKE) -f CMakeFiles/runUnitTests.dir/build.make CMakeFiles/runUnitTests.dir/build
-.PHONY : runUnitTests/fast
+Allocatortest/fast:
+	$(MAKE) -f CMakeFiles/Allocatortest.dir/build.make CMakeFiles/Allocatortest.dir/build
+.PHONY : Allocatortest/fast
+
+#=============================================================================
+# Target rules for targets named Containertest
+
+# Build rule for target.
+Containertest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Containertest
+.PHONY : Containertest
+
+# fast build rule for target.
+Containertest/fast:
+	$(MAKE) -f CMakeFiles/Containertest.dir/build.make CMakeFiles/Containertest.dir/build
+.PHONY : Containertest/fast
 
 test/AllocatorTest.o: test/AllocatorTest.cpp.o
 
@@ -129,7 +142,7 @@ test/AllocatorTest.o: test/AllocatorTest.cpp.o
 
 # target to build an object file
 test/AllocatorTest.cpp.o:
-	$(MAKE) -f CMakeFiles/runUnitTests.dir/build.make CMakeFiles/runUnitTests.dir/test/AllocatorTest.cpp.o
+	$(MAKE) -f CMakeFiles/Allocatortest.dir/build.make CMakeFiles/Allocatortest.dir/test/AllocatorTest.cpp.o
 .PHONY : test/AllocatorTest.cpp.o
 
 test/AllocatorTest.i: test/AllocatorTest.cpp.i
@@ -138,7 +151,7 @@ test/AllocatorTest.i: test/AllocatorTest.cpp.i
 
 # target to preprocess a source file
 test/AllocatorTest.cpp.i:
-	$(MAKE) -f CMakeFiles/runUnitTests.dir/build.make CMakeFiles/runUnitTests.dir/test/AllocatorTest.cpp.i
+	$(MAKE) -f CMakeFiles/Allocatortest.dir/build.make CMakeFiles/Allocatortest.dir/test/AllocatorTest.cpp.i
 .PHONY : test/AllocatorTest.cpp.i
 
 test/AllocatorTest.s: test/AllocatorTest.cpp.s
@@ -147,8 +160,35 @@ test/AllocatorTest.s: test/AllocatorTest.cpp.s
 
 # target to generate assembly for a file
 test/AllocatorTest.cpp.s:
-	$(MAKE) -f CMakeFiles/runUnitTests.dir/build.make CMakeFiles/runUnitTests.dir/test/AllocatorTest.cpp.s
+	$(MAKE) -f CMakeFiles/Allocatortest.dir/build.make CMakeFiles/Allocatortest.dir/test/AllocatorTest.cpp.s
 .PHONY : test/AllocatorTest.cpp.s
+
+test/ContainerTest.o: test/ContainerTest.cpp.o
+
+.PHONY : test/ContainerTest.o
+
+# target to build an object file
+test/ContainerTest.cpp.o:
+	$(MAKE) -f CMakeFiles/Containertest.dir/build.make CMakeFiles/Containertest.dir/test/ContainerTest.cpp.o
+.PHONY : test/ContainerTest.cpp.o
+
+test/ContainerTest.i: test/ContainerTest.cpp.i
+
+.PHONY : test/ContainerTest.i
+
+# target to preprocess a source file
+test/ContainerTest.cpp.i:
+	$(MAKE) -f CMakeFiles/Containertest.dir/build.make CMakeFiles/Containertest.dir/test/ContainerTest.cpp.i
+.PHONY : test/ContainerTest.cpp.i
+
+test/ContainerTest.s: test/ContainerTest.cpp.s
+
+.PHONY : test/ContainerTest.s
+
+# target to generate assembly for a file
+test/ContainerTest.cpp.s:
+	$(MAKE) -f CMakeFiles/Containertest.dir/build.make CMakeFiles/Containertest.dir/test/ContainerTest.cpp.s
+.PHONY : test/ContainerTest.cpp.s
 
 # Help Target
 help:
@@ -156,12 +196,16 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
-	@echo "... runUnitTests"
 	@echo "... edit_cache"
+	@echo "... Allocatortest"
+	@echo "... rebuild_cache"
+	@echo "... Containertest"
 	@echo "... test/AllocatorTest.o"
 	@echo "... test/AllocatorTest.i"
 	@echo "... test/AllocatorTest.s"
+	@echo "... test/ContainerTest.o"
+	@echo "... test/ContainerTest.i"
+	@echo "... test/ContainerTest.s"
 .PHONY : help
 
 

@@ -77,10 +77,10 @@ namespace MINISTL{
         return static_cast<typename iterator_traits<Iterator>::value_type*>(0);
     }
 
-    //以下为整组distance函数
+    //以下为整组distance函数，distance函数作用就是返回两个iterator之间的距离
     template <class InputIterator>
     inline typename iterator_traits<InputIterator>::diffrence_type __distance(InputIterator first, InputIterator last, input_iterator_tag) {
-        iterator_traits<InputIterator>::diffrence_type n = 0;
+        typename iterator_traits<InputIterator>::diffrence_type n = 0;
         while (first != last)
             ++first, ++n;
         return n;
@@ -97,7 +97,7 @@ namespace MINISTL{
         return __distance(first, last, category());
     }
 
-    //以下为整组advance函数
+    //以下为整组advance函数， advance作用就是让iterator加上n
     template <class InputIterator, class Distance>
     inline void __advance(InputIterator &i, Distance n, input_iterator_tag) {
         while (n--) ++i;

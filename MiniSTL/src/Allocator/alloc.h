@@ -7,6 +7,7 @@
 #define MINI_STL_SRC_ALLOCATOR_ALLOC_H
 #include <stdlib.h>
 #include <string.h>
+#include <new>
 
 namespace MINISTL{
 
