@@ -13,5 +13,10 @@ set(JEMALLOC_LIB /usr/local/jemalloc/lib)
 include_directories(${JEMALLOC_INCLUDE_DIR})
 link_directories(${JEMALLOC_LIB})
 
-add_executable(runUnitTests ./test/AllocatorTest.cpp)
-target_link_libraries(runUnitTests gtest pthread jemalloc)
+# Allocator测试
+add_executable(Allocatortest ./test/AllocatorTest.cpp)
+target_link_libraries(Allocatortest gtest pthread jemalloc)
+
+# Container测试
+add_executable(Containertest ./test/ContainerTest.cpp)
+target_link_libraries(Containertest gtest pthread)

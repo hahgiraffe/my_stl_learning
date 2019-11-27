@@ -43,7 +43,7 @@ public:
     const_iterator cend() const noexcept { return finish; }
     size_type size() const { return size_type(finish - start); }
     size_type capacity() const { return size_type(end_of_storage - start); }
-    bool empty() const { return begin() ==  end(); }
+    bool empty() const { return start ==  finish; }
     //注意这里返回引用才能更改
     reference operator[](size_type n) { return *(begin() + n); }
 
@@ -94,6 +94,7 @@ public:
         finish -= (last - first);
         return first;
     }
+    //TODO
     void insert(iterator first, size_type sz, const T& value){
 
     }
