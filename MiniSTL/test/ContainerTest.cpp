@@ -5,12 +5,14 @@
  */
 #include "../src/Container/Sequence/vector.h"
 #include "../src/Container/Sequence/list.h"
+#include "../src/Container/Sequence/deque.h"
 #include <algorithm>
 #include "gtest/gtest.h"
-#include <iostream>
+#include <printf.h>
 
 //测试vector,注意要测试每一个成员函数
 TEST(ContainerTest,VectorTest){
+    printf("%s\n","begin test vector");
     //vector构造函数
     MINISTL::vector<int> vec(3,1000);
     //vec.empty()
@@ -41,7 +43,7 @@ TEST(ContainerTest,VectorTest){
     EXPECT_EQ(vec.size(),99);
     //vec.resize()
     vec.resize(3);
-    std::cout<<"after resize"<<vec[0]<<" "<<vec[1]<<" "<<vec[2]<<std::endl;
+    // std::cout<<"after resize"<<vec[0]<<" "<<vec[1]<<" "<<vec[2]<<std::endl;
     EXPECT_EQ(vec.size(),3);
     //vec.clear()
     vec.clear();
@@ -49,6 +51,7 @@ TEST(ContainerTest,VectorTest){
 }
 
 TEST(ContainerTest, ListTest){
+    printf("%s\n","begin test list");
     //ctor
     MINISTL::list<double> mylist;
     //list.empty()
@@ -85,7 +88,7 @@ TEST(ContainerTest, ListTest){
     mylist.erase(mylist.begin()++);
     EXPECT_EQ(mylist.front(), 988);
     EXPECT_EQ(mylist.size(),978);
-    std::cout<<"mylist.size() "<<mylist.size()<<std::endl;
+    // std::cout<<"mylist.size() "<<mylist.size()<<std::endl;
     //list.clear()
     mylist.clear();
     EXPECT_EQ(mylist.size(),0);
@@ -95,18 +98,18 @@ TEST(ContainerTest, ListTest){
         mylist.push_back(static_cast<double>(i));
     }
     mylist.sort();
-    std::cout<<"sort: ";
-    std::for_each(mylist.begin(), mylist.end(), [](double a){
-        std::cout<<a<<" ";
-    });
-    std::cout<<std::endl;
+    // std::cout<<"sort: ";
+    // std::for_each(mylist.begin(), mylist.end(), [](double a){
+    //     std::cout<<a<<" ";
+    // });
+    // std::cout<<std::endl;
     //list.reverse()
-    std::cout<<"after reverse: ";
+    // std::cout<<"after reverse: ";
     mylist.reverse();
-    std::for_each(mylist.begin(), mylist.end(), [](double a){
-        std::cout<<a<<" ";
-    }); 
-    std::cout<<std::endl;
+    // std::for_each(mylist.begin(), mylist.end(), [](double a){
+    //     std::cout<<a<<" ";
+    // }); 
+    // std::cout<<std::endl;
     //list.merge()
     MINISTL::list<double> mylist2;
     for(int i=0;i<15;i=i+2){
@@ -114,24 +117,63 @@ TEST(ContainerTest, ListTest){
     }
     mylist.reverse();
     mylist2.merge(mylist);
-    std::cout<<"after merge , mylist2 ";
-    std::for_each(mylist2.begin(), mylist2.end(), [](double a){
-        std::cout<<a<<" ";
-    }); 
-    std::cout<<std::endl;
-    std::cout<<"after merge , mylist ";
-    std::for_each(mylist.begin(), mylist.end(), [](double a){
-        std::cout<<a<<" ";
-    }); 
-    std::cout<<std::endl;
+    // std::cout<<"after merge , mylist2 ";
+    // std::for_each(mylist2.begin(), mylist2.end(), [](double a){
+    //     std::cout<<a<<" ";
+    // });
+    // std::cout<<std::endl;
+    // std::cout<<"after merge , mylist ";
+    // std::for_each(mylist.begin(), mylist.end(), [](double a){
+    //     std::cout<<a<<" ";
+    // }); 
+    // std::cout<<std::endl;
     //list.splice
-    std::cout<<"after splice ";
+    // std::cout<<"after splice ";
     mylist.push_back(100.0);
     mylist2.splice(mylist2.begin(), mylist.begin(), mylist.end());
-    std::for_each(mylist2.begin(), mylist2.end(), [](double a){
-        std::cout<<a<<" ";
-    }); 
-    std::cout<<std::endl;
+    // std::for_each(mylist2.begin(), mylist2.end(), [](double a){
+    //     std::cout<<a<<" ";
+    // }); 
+    // std::cout<<std::endl;
+
+}
+
+
+TEST(ContainerTest, DequeTest){
+    printf("%s\n","begin test deque");
+    //ctor
+    MINISTL::deque<int> mydeque(10,3);
+    //deque.push_back() && deque.push_front()
+    mydeque.push_back(200);
+    mydeque.push_front(300);
+    //deque.front() && deque.back()
+    EXPECT_EQ(mydeque.front(), 300);
+    EXPECT_EQ(mydeque.back(), 200);
+    //deque.size() && deque.empty()
+    EXPECT_EQ(mydeque.size(), 12);
+    EXPECT_FALSE(mydeque.empty());
+    //deque.pop_back() && deque.pop_front()
+    mydeque.pop_back();
+    mydeque.pop_front();
+    EXPECT_EQ(mydeque.size(), 10);
+    //deque.begin() && deque.end() && operator []
+    for(auto itr = mydeque.begin(); itr != mydeque.end(); ++itr){
+        *itr.cur = 66;
+    }
+    EXPECT_EQ(mydeque[7], 66);
+    //deque.erase()
+    auto eraseitr = mydeque.begin() + 2;
+    mydeque.erase(eraseitr);
+    EXPECT_EQ(mydeque.size(), 9);
+    //deque.insert()
+    auto insertitr = mydeque.end();
+    mydeque.insert(insertitr, 37);
+    EXPECT_EQ(mydeque.size(), 10);
+    EXPECT_EQ(mydeque.back(), 37);
+    //deque.clear()
+    mydeque.clear();
+    EXPECT_EQ(mydeque.size(), 0);
+    EXPECT_TRUE(mydeque.empty());
 
 }
 

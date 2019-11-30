@@ -75,7 +75,7 @@ inline Itr copy(Itr begin, Itr end, OutputIterator target){
     return __copy_dispatch<Itr, OutputIterator>()(begin, end, target);
 }
 
-//copy_backward的实现
+//copy_backward的实现，从后往前赋值（end -> begin）
 template <typename Itr,typename BiItr>
 inline BiItr copy_backward(Itr begin,Itr end,BiItr target){
     while (begin != end) {
@@ -109,6 +109,13 @@ void swap(T& a, T& b){
     b = tmp;
 }
 
+//max
+template <typename T>
+T max(T a, T b) { return a < b ? b : a; }
+
+//min
+template <typename T>
+T min(T a, T b) { return a < b ? a : b; }
 };
 
 #endif //MINISTL_SRC_ALGORITHM_ALGORITHM_H

@@ -13,8 +13,8 @@
 * Iterator类完成及测试
 * typetraits类型萃取剂完成
 3. Container （10/100）
-* vector (测试基本完成，一些mordern cpp的成员变量还未完成)
-* list（测试基本完成）
+* ~~vector (测试基本完成，一些mordern cpp的成员变量还未完成)~~
+* ~~list（测试基本完成）~~
 * deque
 * queue
 * stak

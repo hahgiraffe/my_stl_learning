@@ -25,6 +25,7 @@ public:
     typedef size_t size_type;
     typedef ptrdiff_t difference_type;
     
+    //rebind作用
     template <typename U>
     struct rebind{
         typedef allocator<U> other;

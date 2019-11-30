@@ -50,6 +50,14 @@ new
 ../Algorithm/algorithm.h
 /home/chs/my_stl_learning/MiniSTL/src/Algorithm/algorithm.h
 
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/deque.h
+../../Allocator/allocator.h
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/allocator.h
+../../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
+../../Allocator/uninitialized.h
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/uninitialized.h
+
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/list.h
 ../../Allocator/allocator.h
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/allocator.h
@@ -79,10 +87,12 @@ stddef.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/vector.h
 ../src/Container/Sequence/list.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/list.h
+../src/Container/Sequence/deque.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/deque.h
 algorithm
 -
 gtest/gtest.h
 /home/chs/my_stl_learning/MiniSTL/test/gtest/gtest.h
-iostream
+printf.h
 -
 
