@@ -6,6 +6,8 @@
 #include "../src/Container/Sequence/vector.h"
 #include "../src/Container/Sequence/list.h"
 #include "../src/Container/Sequence/deque.h"
+#include "../src/Container/Sequence/stack.h"
+#include "../src/Container/Sequence/queue.h"
 #include <algorithm>
 #include "gtest/gtest.h"
 #include <printf.h>
@@ -138,9 +140,9 @@ TEST(ContainerTest, ListTest){
 
 }
 
-
+//deque、stack、queue都不能std::string
 TEST(ContainerTest, DequeTest){
-    printf("%s\n","begin test deque");
+    printf("%s\n","begin test deque<int>");
     //ctor
     MINISTL::deque<int> mydeque(10,3);
     //deque.push_back() && deque.push_front()
@@ -175,7 +177,72 @@ TEST(ContainerTest, DequeTest){
     EXPECT_EQ(mydeque.size(), 0);
     EXPECT_TRUE(mydeque.empty());
 
+    printf("%s\n", "begin test deque<std::string>");
+    MINISTL::deque<std::string> my_string_deque;
+    for(int i=0; i<10; ++i){
+        my_string_deque.push_back(std::to_string(i));
+    }
+    for(int i=10; i<20; ++i){
+        my_string_deque.push_front(std::to_string(i));
+    }
+    EXPECT_EQ(my_string_deque.size(), 20);
+    EXPECT_EQ(my_string_deque[1], "18");
+    EXPECT_EQ(my_string_deque.back(), "9");   
+    EXPECT_EQ(my_string_deque.front(), "19");   
+    EXPECT_FALSE(my_string_deque.empty());
+    my_string_deque.pop_back();
+    my_string_deque.pop_front();
+    EXPECT_EQ(my_string_deque.size(), 18);
+    auto insert_stritr = my_string_deque.end();
+    my_string_deque.insert(insert_stritr, "chs");
+    EXPECT_EQ(my_string_deque.size(), 19);
+    EXPECT_EQ(my_string_deque.back(), "chs");
+    //deque.clear()
+    my_string_deque.clear();
+    EXPECT_EQ(my_string_deque.size(), 0);
+    
 }
+
+TEST(ContainerTest, StackTest){
+    printf("%s\n","begin test stack");
+    MINISTL::stack<int> mystack;
+    MINISTL::stack<int> stack_copy;
+    //stack.size()
+    EXPECT_EQ(mystack.size(),0);
+    //stack.push && stack.pop
+    for(int i=0; i<10; ++i){
+        mystack.push(i);
+    }
+    EXPECT_EQ(mystack.size(),10);
+    EXPECT_EQ(mystack.top(),9);
+    mystack.pop();
+    EXPECT_EQ(mystack.top(),8);
+    EXPECT_EQ(mystack.size(),9);
+    EXPECT_FALSE(mystack.empty());
+    EXPECT_FALSE(mystack == stack_copy);
+}
+
+TEST(ContainerTest, QueueTest){
+    printf("%s\n","begin test queue");
+    MINISTL::queue<double> myqueue;
+    MINISTL::queue<double> myqueue_copy;
+    //stack.size()
+    EXPECT_EQ(myqueue.size(), 0);
+    //stack.push && stack.pop
+    for(int i=0; i<10; ++i){
+        myqueue.push(static_cast<double>(i));
+    }
+    EXPECT_EQ(myqueue.size(), 10);
+    EXPECT_EQ(myqueue.front(), 0);
+    EXPECT_EQ(myqueue.back(), 9);
+    myqueue.pop();
+    EXPECT_EQ(myqueue.front(), 1);
+    EXPECT_EQ(myqueue.size(), 9);
+    EXPECT_FALSE(myqueue.empty());
+    EXPECT_FALSE(myqueue == myqueue_copy);
+}
+
+
 
 int main(int argc,char *argv[]){
     ::testing::InitGoogleTest(&argc,argv);

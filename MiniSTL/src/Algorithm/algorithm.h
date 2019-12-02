@@ -116,7 +116,17 @@ T max(T a, T b) { return a < b ? b : a; }
 //min
 template <typename T>
 T min(T a, T b) { return a < b ? a : b; }
-};
+
+//equal
+template <typename Iterator>
+bool equal(Iterator lbegin, Iterator lend, Iterator rbegin){
+    for(Iterator itr = lbegin; itr != lend; ++itr){
+        if(*itr != *rbegin++) return false; 
+    }
+    return true;
+}
+
+}   //namespace MINISTL
 
 #endif //MINISTL_SRC_ALGORITHM_ALGORITHM_H
 

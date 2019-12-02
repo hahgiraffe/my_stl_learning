@@ -50,6 +50,16 @@ new
 ../Algorithm/algorithm.h
 /home/chs/my_stl_learning/MiniSTL/src/Algorithm/algorithm.h
 
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/./deque.h
+../../Allocator/allocator.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Allocator/allocator.h
+../../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Iterator/stl_iterator.h
+../../Allocator/uninitialized.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Allocator/uninitialized.h
+../../Algorithm/algorithm.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Algorithm/algorithm.h
+
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/deque.h
 ../../Allocator/allocator.h
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/allocator.h
@@ -57,6 +67,8 @@ new
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
 ../../Allocator/uninitialized.h
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/uninitialized.h
+../../Algorithm/algorithm.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/algorithm.h
 
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/list.h
 ../../Allocator/allocator.h
@@ -67,6 +79,14 @@ new
 /home/chs/my_stl_learning/MiniSTL/src/Algorithm/algorithm.h
 stddef.h
 -
+
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/queue.h
+./deque.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/./deque.h
+
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/stack.h
+./deque.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/./deque.h
 
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/vector.h
 ../../Allocator/allocator.h
@@ -89,6 +109,10 @@ stddef.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/list.h
 ../src/Container/Sequence/deque.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/deque.h
+../src/Container/Sequence/stack.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/stack.h
+../src/Container/Sequence/queue.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/queue.h
 algorithm
 -
 gtest/gtest.h

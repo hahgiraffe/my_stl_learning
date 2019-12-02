@@ -8,6 +8,7 @@
 #include "../../Allocator/allocator.h"
 #include "../../Iterator/stl_iterator.h"
 #include "../../Allocator/uninitialized.h"
+#include "../../Algorithm/algorithm.h"
 
 namespace MINISTL{
 
@@ -123,6 +124,7 @@ struct __deque_iterator {
 template <typename T, typename Alloc = __default_alloc, size_t Bufsize = 0>
 class deque{
 public:
+    // bool operator == (const deque<T>& lhs, const deque<T>& rhs);
     typedef T value_type;
     typedef value_type* pointer;
     typedef T& reference;
@@ -177,6 +179,11 @@ private:
     }
 public:
     //ctor
+    //这里默认构造函数，主要是给stack和queue构造函数的时候调用的
+    deque()
+        :start(),finish(),map(0),map_size(0){
+        create_map_and_nodes(0);
+    }
     deque(int n, const value_type& value)
         :start(),finish(),map(0),map_size(0){
         fill_initialize(n, value);
@@ -237,6 +244,13 @@ public:
         else{
             pop_front_aux();
         }
+    }
+    bool operator == (const deque<T>& rhs){
+        return this->size() == rhs.size() && MINISTL::equal(this->start, this->finish, rhs.start);
+    }
+    bool operator < (const deque<T>& rhs){
+        // 还没有实现deque::operator <
+        // return this->size() == rhs.size() && MINISTL::equal(this->start, this->finish, rhs.start);
     }
 };
 
@@ -377,16 +391,16 @@ void deque<T, Alloc, Bufsize>::reallocate_map(size_type nodes_to_add, bool add_a
         new_nstart = map + (map_size - new_num_nodes) / 2 + (add_at_front ? nodes_to_add : 0);
         if(new_nstart < start.node)
         {
-            copy(start.node, finish.node + 1, new_nstart);
+            MINISTL::copy(start.node, finish.node + 1, new_nstart);
         }
         else{
-            copy_backward(start.node, finish.node + 1, new_nstart + old_num_nodes);
+            MINISTL::copy_backward(start.node, finish.node + 1, new_nstart + old_num_nodes);
         }
     }else{
         size_type new_map_size = map_size + max(map_size, nodes_to_add) + 2;
         map_pointer new_map = map_allocator::allocate(new_map_size);
         new_nstart = new_map + (new_map_size - new_num_nodes) / 2 + (add_at_front ? nodes_to_add : 0);
-        copy(start.node, finish.node + 1, new_nstart);
+        MINISTL::copy(start.node, finish.node + 1, new_nstart);
         map_allocator::deallocate(map, map_size);
         map = new_map;
         map_size = new_map_size;
@@ -443,7 +457,7 @@ typename deque<T, Alloc, Bufsize>::iterator deque<T, Alloc, Bufsize>::erase(iter
         difference_type n = last - first;
         difference_type elem_before = first - start;
         if(elem_before < (size() - n) / 2){
-            copy_backward(start, first, last);
+            MINISTL::copy_backward(start, first, last);
             iterator new_start = start + n;
             destroy(start, new_start);
             for(map_pointer cur = start.node; cur < new_start.node; ++cur){
@@ -512,6 +526,10 @@ typename deque<T, Alloc, Bufsize>::iterator deque<T, Alloc, Bufsize>::insert_aux
     return pos;
 }
 
+// template <typename T, typename Alloc, size_t Bufsize>
+// bool operator == (const deque<T, Alloc, Bufsize>& lhs, const deque<T, Alloc, Bufsize>& rhs){
+//     return lhs.size() == rhs.size() && MINISTL::equal(lhs.start, lhs.finish, rhs.start);
+// }
 
 } // namespace MINISTL
 

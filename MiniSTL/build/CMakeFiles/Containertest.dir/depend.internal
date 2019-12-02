@@ -8,8 +8,11 @@ CMakeFiles/Containertest.dir/test/ContainerTest.cpp.o
  /home/chs/my_stl_learning/MiniSTL/src/Allocator/allocator.h
  /home/chs/my_stl_learning/MiniSTL/src/Allocator/construct.h
  /home/chs/my_stl_learning/MiniSTL/src/Allocator/uninitialized.h
+ /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/./deque.h
  /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/deque.h
  /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/list.h
+ /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/queue.h
+ /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/stack.h
  /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/vector.h
  /home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
  /home/chs/my_stl_learning/MiniSTL/src/Iterator/typetraits.h

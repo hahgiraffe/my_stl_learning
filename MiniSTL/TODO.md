@@ -15,13 +15,13 @@
 3. Container （10/100）
 * ~~vector (测试基本完成，一些mordern cpp的成员变量还未完成)~~
 * ~~list（测试基本完成）~~
-* deque
-* queue
-* stak
-* map
-* set
+* ~~deque(目前不能适配std::string, 还没有operator == 已解决)~~
+* ~~queue~~
+* ~~stack~~
 * slist
 * priority_queue
+* map
+* set
 * unordered_map
 * unordered_set
 4. Algorithm （0/100）
