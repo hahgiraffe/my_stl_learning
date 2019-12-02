@@ -242,7 +242,26 @@ TEST(ContainerTest, QueueTest){
     EXPECT_FALSE(myqueue == myqueue_copy);
 }
 
-
+TEST(ContainerTest, PriorityQueueTest){
+    printf("%s\n","begin test priority_queue");
+    MINISTL::vector<int> myvec;
+    for(int i=0; i<10; ++i){
+        myvec.push_back(i);
+    }
+    MINISTL::priority_queue<int> mypriority_queue_default;
+    MINISTL::priority_queue<int> mypriority_queue(myvec.begin(), myvec.end());
+    EXPECT_FALSE(mypriority_queue.empty());
+    EXPECT_EQ(mypriority_queue.size(), 10);
+    mypriority_queue.push(222);
+    EXPECT_EQ(mypriority_queue.size(), 11);
+    EXPECT_EQ(mypriority_queue.top(), 222);
+    while(!mypriority_queue.empty()){
+        printf("%d ",mypriority_queue.top());
+        mypriority_queue.pop();
+    }
+    printf("\n");
+    EXPECT_EQ(mypriority_queue.size(), 0);
+}
 
 int main(int argc,char *argv[]){
     ::testing::InitGoogleTest(&argc,argv);

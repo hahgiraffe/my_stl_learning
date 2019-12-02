@@ -19,7 +19,7 @@
 * ~~queue~~
 * ~~stack~~
 * slist
-* priority_queue
+* ~~priority_queue(完成heap_algorithm以及test)~~
 * map
 * set
 * unordered_map
@@ -29,5 +29,6 @@
 * fill_n
 * copy
 * copy_backward
+* heap_algorithm(make_heap, sort_heap, push_heap, pop_heap)
 5. Functor   （0/100）
 6. Adaptor   （0/100）

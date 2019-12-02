@@ -79,21 +79,21 @@ namespace MINISTL{
 
     //以下为整组distance函数，distance函数作用就是返回两个iterator之间的距离
     template <class InputIterator>
-    inline typename iterator_traits<InputIterator>::diffrence_type __distance(InputIterator first, InputIterator last, input_iterator_tag) {
-        typename iterator_traits<InputIterator>::diffrence_type n = 0;
+    inline typename iterator_traits<InputIterator>::difference_type __distance(InputIterator first, InputIterator last, input_iterator_tag) {
+        typename iterator_traits<InputIterator>::difference_type n = 0;
         while (first != last)
             ++first, ++n;
         return n;
     }
 
     template <class InputIterator>
-    inline typename iterator_traits<InputIterator>::diffrence_type __distance(InputIterator first, InputIterator last, random_access_iterator_tag) {
+    inline typename iterator_traits<InputIterator>::difference_type __distance(InputIterator first, InputIterator last, random_access_iterator_tag) {
         return last - first;
     }
 
     template <class InputIterator>
-    inline typename iterator_traits<InputIterator>::diffrence_type distance(InputIterator first, InputIterator last) {
-        typename iterator_traits<InputIterator>::iterator_category category;
+    inline typename iterator_traits<InputIterator>::difference_type distance(InputIterator first, InputIterator last) {
+        typedef typename iterator_traits<InputIterator>::iterator_category category;
         return __distance(first, last, category());
     }
 

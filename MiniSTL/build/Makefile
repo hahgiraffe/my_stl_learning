@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named Algorithmtest
+
+# Build rule for target.
+Algorithmtest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Algorithmtest
+.PHONY : Algorithmtest
+
+# fast build rule for target.
+Algorithmtest/fast:
+	$(MAKE) -f CMakeFiles/Algorithmtest.dir/build.make CMakeFiles/Algorithmtest.dir/build
+.PHONY : Algorithmtest/fast
+
+#=============================================================================
 # Target rules for targets named Allocatortest
 
 # Build rule for target.
@@ -135,6 +148,33 @@ Containertest: cmake_check_build_system
 Containertest/fast:
 	$(MAKE) -f CMakeFiles/Containertest.dir/build.make CMakeFiles/Containertest.dir/build
 .PHONY : Containertest/fast
+
+test/AlgorithmTest.o: test/AlgorithmTest.cpp.o
+
+.PHONY : test/AlgorithmTest.o
+
+# target to build an object file
+test/AlgorithmTest.cpp.o:
+	$(MAKE) -f CMakeFiles/Algorithmtest.dir/build.make CMakeFiles/Algorithmtest.dir/test/AlgorithmTest.cpp.o
+.PHONY : test/AlgorithmTest.cpp.o
+
+test/AlgorithmTest.i: test/AlgorithmTest.cpp.i
+
+.PHONY : test/AlgorithmTest.i
+
+# target to preprocess a source file
+test/AlgorithmTest.cpp.i:
+	$(MAKE) -f CMakeFiles/Algorithmtest.dir/build.make CMakeFiles/Algorithmtest.dir/test/AlgorithmTest.cpp.i
+.PHONY : test/AlgorithmTest.cpp.i
+
+test/AlgorithmTest.s: test/AlgorithmTest.cpp.s
+
+.PHONY : test/AlgorithmTest.s
+
+# target to generate assembly for a file
+test/AlgorithmTest.cpp.s:
+	$(MAKE) -f CMakeFiles/Algorithmtest.dir/build.make CMakeFiles/Algorithmtest.dir/test/AlgorithmTest.cpp.s
+.PHONY : test/AlgorithmTest.cpp.s
 
 test/AllocatorTest.o: test/AllocatorTest.cpp.o
 
@@ -197,9 +237,13 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... Algorithmtest"
 	@echo "... Allocatortest"
 	@echo "... rebuild_cache"
 	@echo "... Containertest"
+	@echo "... test/AlgorithmTest.o"
+	@echo "... test/AlgorithmTest.i"
+	@echo "... test/AlgorithmTest.s"
 	@echo "... test/AllocatorTest.o"
 	@echo "... test/AllocatorTest.i"
 	@echo "... test/AllocatorTest.s"

@@ -12,6 +12,12 @@
 ../Iterator/typetraits.h
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/typetraits.h
 
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/heap_algorithm.h
+../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
+../Functor/stl_function.h
+/home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
+
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/./construct.h
 new
 -
@@ -60,6 +66,16 @@ new
 ../../Algorithm/algorithm.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Algorithm/algorithm.h
 
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/./vector.h
+../../Allocator/allocator.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Allocator/allocator.h
+../../Allocator/uninitialized.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Allocator/uninitialized.h
+../../Algorithm/algorithm.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Algorithm/algorithm.h
+../../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Iterator/stl_iterator.h
+
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/deque.h
 ../../Allocator/allocator.h
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/allocator.h
@@ -83,6 +99,12 @@ stddef.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/queue.h
 ./deque.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/./deque.h
+./vector.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/./vector.h
+../../Algorithm/heap_algorithm.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/heap_algorithm.h
+../../Functor/stl_function.h
+/home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
 
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/stack.h
 ./deque.h
@@ -95,6 +117,10 @@ stddef.h
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/uninitialized.h
 ../../Algorithm/algorithm.h
 /home/chs/my_stl_learning/MiniSTL/src/Algorithm/algorithm.h
+../../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
+
+/home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
 
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
 stddef.h

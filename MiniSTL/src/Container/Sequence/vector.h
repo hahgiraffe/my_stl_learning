@@ -8,6 +8,8 @@
 #include "../../Allocator/allocator.h"
 #include "../../Allocator/uninitialized.h"
 #include "../../Algorithm/algorithm.h"
+#include "../../Iterator/stl_iterator.h"
+
 namespace MINISTL{
 
 template<typename T, typename Alloc = __default_alloc>
@@ -52,6 +54,13 @@ public:
     vector(size_type n,const T& value) { 
         fill_initialize(n, value);
     }
+    template <typename InputIterator>
+    vector(InputIterator begin, InputIterator end){
+        size_type n = MINISTL::distance(begin, end);
+        start = data_allocator::allocate(n);
+        MINISTL::uninitialized_copy(begin, end, start);
+        finish = end_of_storage = start + n;
+    }
     vector(int n,const T& value) {
         fill_initialize(n, value);
     }
@@ -64,6 +73,7 @@ public:
     }
 
     reference front() { return *begin(); }
+    // const_reference front() { return *begin(); }
     reference back() { return *(end() - 1); }
     void push_back(const T& x){
         if(finish != end_of_storage){

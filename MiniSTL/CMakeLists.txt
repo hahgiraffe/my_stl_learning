@@ -20,3 +20,7 @@ target_link_libraries(Allocatortest gtest pthread jemalloc)
 # Container测试
 add_executable(Containertest ./test/ContainerTest.cpp)
 target_link_libraries(Containertest gtest pthread)
+
+# Algorithm测试
+add_executable(Algorithmtest ./test/AlgorithmTest.cpp)
+target_link_libraries(Algorithmtest gtest pthread)
