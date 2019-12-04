@@ -106,6 +106,12 @@ stddef.h
 ../../Functor/stl_function.h
 /home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
 
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/slist.h
+../../Allocator/allocator.h
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/allocator.h
+../../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
+
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/stack.h
 ./deque.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/./deque.h
@@ -139,6 +145,8 @@ stddef.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/stack.h
 ../src/Container/Sequence/queue.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/queue.h
+../src/Container/Sequence/slist.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/slist.h
 algorithm
 -
 gtest/gtest.h

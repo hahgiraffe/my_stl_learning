@@ -8,6 +8,7 @@
 #include "../src/Container/Sequence/deque.h"
 #include "../src/Container/Sequence/stack.h"
 #include "../src/Container/Sequence/queue.h"
+#include "../src/Container/Sequence/slist.h"
 #include <algorithm>
 #include "gtest/gtest.h"
 #include <printf.h>
@@ -261,7 +262,39 @@ TEST(ContainerTest, PriorityQueueTest){
     }
     printf("\n");
     EXPECT_EQ(mypriority_queue.size(), 0);
+
+    //这里priority_queue<string>还未完成，不知道比较的方式，functor完成后再测试
+    // printf("%s\n","begin test priority_queue<string>");
+    // MINISTL::priority_queue<std::string> my_str_pq;
+
 }
+
+TEST(ContainerTest, slistTest){
+    printf("%s\n", "begin test slist");
+    MINISTL::slist<int> myslist;
+    EXPECT_TRUE(myslist.empty());
+    EXPECT_EQ(myslist.size(), 0);
+    for(int i=0; i<10; ++i){
+        myslist.push_front(i);
+    }
+    EXPECT_EQ(myslist.size(), 10);
+    auto ite = myslist.begin();
+    auto ite2 = myslist.end();
+    for(; ite != ite2; ++ite){
+        printf("%d ", *ite);
+    }
+    printf("\n");
+    EXPECT_EQ(myslist.front(), 9);
+    myslist.pop_front();
+    EXPECT_EQ(myslist.front(), 8);
+    EXPECT_EQ(myslist.size(), 9);
+    myslist.clear();
+    EXPECT_EQ(myslist.size(), 0);
+    EXPECT_TRUE(myslist.empty());
+
+}
+
+
 
 int main(int argc,char *argv[]){
     ::testing::InitGoogleTest(&argc,argv);
