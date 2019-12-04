@@ -17,9 +17,13 @@ link_directories(${JEMALLOC_LIB})
 add_executable(Allocatortest ./test/AllocatorTest.cpp)
 target_link_libraries(Allocatortest gtest pthread jemalloc)
 
-# Container测试
-add_executable(Containertest ./test/ContainerTest.cpp)
-target_link_libraries(Containertest gtest pthread)
+# SequnceContainer测试
+add_executable(SequenceContainertest ./test/SequenceContainerTest.cpp)
+target_link_libraries(SequenceContainertest gtest pthread)
+
+# AssociativeContainer测试
+add_executable(AssociativeContainertest ./test/AssociativeContainerTest.cpp)
+target_link_libraries(AssociativeContainertest gtest pthread)
 
 # Algorithm测试
 add_executable(Algorithmtest ./test/AlgorithmTest.cpp)

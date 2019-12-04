@@ -35,6 +35,13 @@ struct less : public binary_function<T, T, bool>{
     bool operator () (const T& x, const T& y) const { return x < y; }
 };
 
+//identity，直接返回
+template <typename T> 
+struct identity : public unary_function<T, T> {
+    const T &operator()(const T &x) const {
+        return x;
+    }
+};
 }   //namespace MINISTL
 
 #endif //MINISTL_SRC_FUNCTOR_STL_FUNCTION_H

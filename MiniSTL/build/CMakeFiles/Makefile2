@@ -97,6 +97,43 @@ clean: CMakeFiles/Algorithmtest.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/AssociativeContainertest.dir
+
+# All Build rule for target.
+CMakeFiles/AssociativeContainertest.dir/all:
+	$(MAKE) -f CMakeFiles/AssociativeContainertest.dir/build.make CMakeFiles/AssociativeContainertest.dir/depend
+	$(MAKE) -f CMakeFiles/AssociativeContainertest.dir/build.make CMakeFiles/AssociativeContainertest.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chs/my_stl_learning/MiniSTL/build/CMakeFiles --progress-num=5,6 "Built target AssociativeContainertest"
+.PHONY : CMakeFiles/AssociativeContainertest.dir/all
+
+# Include target in all.
+all: CMakeFiles/AssociativeContainertest.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/AssociativeContainertest.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chs/my_stl_learning/MiniSTL/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/AssociativeContainertest.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/chs/my_stl_learning/MiniSTL/build/CMakeFiles 0
+.PHONY : CMakeFiles/AssociativeContainertest.dir/rule
+
+# Convenience name for target.
+AssociativeContainertest: CMakeFiles/AssociativeContainertest.dir/rule
+
+.PHONY : AssociativeContainertest
+
+# clean rule for target.
+CMakeFiles/AssociativeContainertest.dir/clean:
+	$(MAKE) -f CMakeFiles/AssociativeContainertest.dir/build.make CMakeFiles/AssociativeContainertest.dir/clean
+.PHONY : CMakeFiles/AssociativeContainertest.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/AssociativeContainertest.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/Allocatortest.dir
 
 # All Build rule for target.
@@ -134,39 +171,39 @@ clean: CMakeFiles/Allocatortest.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/Containertest.dir
+# Target rules for target CMakeFiles/SequenceContainertest.dir
 
 # All Build rule for target.
-CMakeFiles/Containertest.dir/all:
-	$(MAKE) -f CMakeFiles/Containertest.dir/build.make CMakeFiles/Containertest.dir/depend
-	$(MAKE) -f CMakeFiles/Containertest.dir/build.make CMakeFiles/Containertest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chs/my_stl_learning/MiniSTL/build/CMakeFiles --progress-num=5,6 "Built target Containertest"
-.PHONY : CMakeFiles/Containertest.dir/all
+CMakeFiles/SequenceContainertest.dir/all:
+	$(MAKE) -f CMakeFiles/SequenceContainertest.dir/build.make CMakeFiles/SequenceContainertest.dir/depend
+	$(MAKE) -f CMakeFiles/SequenceContainertest.dir/build.make CMakeFiles/SequenceContainertest.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/chs/my_stl_learning/MiniSTL/build/CMakeFiles --progress-num=7,8 "Built target SequenceContainertest"
+.PHONY : CMakeFiles/SequenceContainertest.dir/all
 
 # Include target in all.
-all: CMakeFiles/Containertest.dir/all
+all: CMakeFiles/SequenceContainertest.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/Containertest.dir/rule: cmake_check_build_system
+CMakeFiles/SequenceContainertest.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/chs/my_stl_learning/MiniSTL/build/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Containertest.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/SequenceContainertest.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/chs/my_stl_learning/MiniSTL/build/CMakeFiles 0
-.PHONY : CMakeFiles/Containertest.dir/rule
+.PHONY : CMakeFiles/SequenceContainertest.dir/rule
 
 # Convenience name for target.
-Containertest: CMakeFiles/Containertest.dir/rule
+SequenceContainertest: CMakeFiles/SequenceContainertest.dir/rule
 
-.PHONY : Containertest
-
-# clean rule for target.
-CMakeFiles/Containertest.dir/clean:
-	$(MAKE) -f CMakeFiles/Containertest.dir/build.make CMakeFiles/Containertest.dir/clean
-.PHONY : CMakeFiles/Containertest.dir/clean
+.PHONY : SequenceContainertest
 
 # clean rule for target.
-clean: CMakeFiles/Containertest.dir/clean
+CMakeFiles/SequenceContainertest.dir/clean:
+	$(MAKE) -f CMakeFiles/SequenceContainertest.dir/build.make CMakeFiles/SequenceContainertest.dir/clean
+.PHONY : CMakeFiles/SequenceContainertest.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/SequenceContainertest.dir/clean
 
 .PHONY : clean
 

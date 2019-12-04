@@ -189,7 +189,7 @@ TEST(ContainerTest, DequeTest){
     EXPECT_EQ(my_string_deque.size(), 20);
     EXPECT_EQ(my_string_deque[1], "18");
     EXPECT_EQ(my_string_deque.back(), "9");   
-    EXPECT_EQ(my_string_deque.front(), "19");   
+    EXPECT_EQ(my_string_deque.front(), "19");
     EXPECT_FALSE(my_string_deque.empty());
     my_string_deque.pop_back();
     my_string_deque.pop_front();
@@ -201,7 +201,6 @@ TEST(ContainerTest, DequeTest){
     //deque.clear()
     my_string_deque.clear();
     EXPECT_EQ(my_string_deque.size(), 0);
-    
 }
 
 TEST(ContainerTest, StackTest){

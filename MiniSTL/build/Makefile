@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/chs/my_stl_learning/MiniSTL/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -77,6 +66,17 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -124,6 +124,19 @@ Algorithmtest/fast:
 .PHONY : Algorithmtest/fast
 
 #=============================================================================
+# Target rules for targets named AssociativeContainertest
+
+# Build rule for target.
+AssociativeContainertest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 AssociativeContainertest
+.PHONY : AssociativeContainertest
+
+# fast build rule for target.
+AssociativeContainertest/fast:
+	$(MAKE) -f CMakeFiles/AssociativeContainertest.dir/build.make CMakeFiles/AssociativeContainertest.dir/build
+.PHONY : AssociativeContainertest/fast
+
+#=============================================================================
 # Target rules for targets named Allocatortest
 
 # Build rule for target.
@@ -137,17 +150,17 @@ Allocatortest/fast:
 .PHONY : Allocatortest/fast
 
 #=============================================================================
-# Target rules for targets named Containertest
+# Target rules for targets named SequenceContainertest
 
 # Build rule for target.
-Containertest: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Containertest
-.PHONY : Containertest
+SequenceContainertest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 SequenceContainertest
+.PHONY : SequenceContainertest
 
 # fast build rule for target.
-Containertest/fast:
-	$(MAKE) -f CMakeFiles/Containertest.dir/build.make CMakeFiles/Containertest.dir/build
-.PHONY : Containertest/fast
+SequenceContainertest/fast:
+	$(MAKE) -f CMakeFiles/SequenceContainertest.dir/build.make CMakeFiles/SequenceContainertest.dir/build
+.PHONY : SequenceContainertest/fast
 
 test/AlgorithmTest.o: test/AlgorithmTest.cpp.o
 
@@ -203,32 +216,59 @@ test/AllocatorTest.cpp.s:
 	$(MAKE) -f CMakeFiles/Allocatortest.dir/build.make CMakeFiles/Allocatortest.dir/test/AllocatorTest.cpp.s
 .PHONY : test/AllocatorTest.cpp.s
 
-test/ContainerTest.o: test/ContainerTest.cpp.o
+test/AssociativeContainerTest.o: test/AssociativeContainerTest.cpp.o
 
-.PHONY : test/ContainerTest.o
+.PHONY : test/AssociativeContainerTest.o
 
 # target to build an object file
-test/ContainerTest.cpp.o:
-	$(MAKE) -f CMakeFiles/Containertest.dir/build.make CMakeFiles/Containertest.dir/test/ContainerTest.cpp.o
-.PHONY : test/ContainerTest.cpp.o
+test/AssociativeContainerTest.cpp.o:
+	$(MAKE) -f CMakeFiles/AssociativeContainertest.dir/build.make CMakeFiles/AssociativeContainertest.dir/test/AssociativeContainerTest.cpp.o
+.PHONY : test/AssociativeContainerTest.cpp.o
 
-test/ContainerTest.i: test/ContainerTest.cpp.i
+test/AssociativeContainerTest.i: test/AssociativeContainerTest.cpp.i
 
-.PHONY : test/ContainerTest.i
+.PHONY : test/AssociativeContainerTest.i
 
 # target to preprocess a source file
-test/ContainerTest.cpp.i:
-	$(MAKE) -f CMakeFiles/Containertest.dir/build.make CMakeFiles/Containertest.dir/test/ContainerTest.cpp.i
-.PHONY : test/ContainerTest.cpp.i
+test/AssociativeContainerTest.cpp.i:
+	$(MAKE) -f CMakeFiles/AssociativeContainertest.dir/build.make CMakeFiles/AssociativeContainertest.dir/test/AssociativeContainerTest.cpp.i
+.PHONY : test/AssociativeContainerTest.cpp.i
 
-test/ContainerTest.s: test/ContainerTest.cpp.s
+test/AssociativeContainerTest.s: test/AssociativeContainerTest.cpp.s
 
-.PHONY : test/ContainerTest.s
+.PHONY : test/AssociativeContainerTest.s
 
 # target to generate assembly for a file
-test/ContainerTest.cpp.s:
-	$(MAKE) -f CMakeFiles/Containertest.dir/build.make CMakeFiles/Containertest.dir/test/ContainerTest.cpp.s
-.PHONY : test/ContainerTest.cpp.s
+test/AssociativeContainerTest.cpp.s:
+	$(MAKE) -f CMakeFiles/AssociativeContainertest.dir/build.make CMakeFiles/AssociativeContainertest.dir/test/AssociativeContainerTest.cpp.s
+.PHONY : test/AssociativeContainerTest.cpp.s
+
+test/SequenceContainerTest.o: test/SequenceContainerTest.cpp.o
+
+.PHONY : test/SequenceContainerTest.o
+
+# target to build an object file
+test/SequenceContainerTest.cpp.o:
+	$(MAKE) -f CMakeFiles/SequenceContainertest.dir/build.make CMakeFiles/SequenceContainertest.dir/test/SequenceContainerTest.cpp.o
+.PHONY : test/SequenceContainerTest.cpp.o
+
+test/SequenceContainerTest.i: test/SequenceContainerTest.cpp.i
+
+.PHONY : test/SequenceContainerTest.i
+
+# target to preprocess a source file
+test/SequenceContainerTest.cpp.i:
+	$(MAKE) -f CMakeFiles/SequenceContainertest.dir/build.make CMakeFiles/SequenceContainertest.dir/test/SequenceContainerTest.cpp.i
+.PHONY : test/SequenceContainerTest.cpp.i
+
+test/SequenceContainerTest.s: test/SequenceContainerTest.cpp.s
+
+.PHONY : test/SequenceContainerTest.s
+
+# target to generate assembly for a file
+test/SequenceContainerTest.cpp.s:
+	$(MAKE) -f CMakeFiles/SequenceContainertest.dir/build.make CMakeFiles/SequenceContainertest.dir/test/SequenceContainerTest.cpp.s
+.PHONY : test/SequenceContainerTest.cpp.s
 
 # Help Target
 help:
@@ -236,20 +276,24 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... Algorithmtest"
+	@echo "... AssociativeContainertest"
 	@echo "... Allocatortest"
-	@echo "... rebuild_cache"
-	@echo "... Containertest"
+	@echo "... SequenceContainertest"
 	@echo "... test/AlgorithmTest.o"
 	@echo "... test/AlgorithmTest.i"
 	@echo "... test/AlgorithmTest.s"
 	@echo "... test/AllocatorTest.o"
 	@echo "... test/AllocatorTest.i"
 	@echo "... test/AllocatorTest.s"
-	@echo "... test/ContainerTest.o"
-	@echo "... test/ContainerTest.i"
-	@echo "... test/ContainerTest.s"
+	@echo "... test/AssociativeContainerTest.o"
+	@echo "... test/AssociativeContainerTest.i"
+	@echo "... test/AssociativeContainerTest.s"
+	@echo "... test/SequenceContainerTest.o"
+	@echo "... test/SequenceContainerTest.i"
+	@echo "... test/SequenceContainerTest.s"
 .PHONY : help
 
 
