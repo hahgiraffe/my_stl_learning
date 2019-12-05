@@ -7,6 +7,7 @@
 #define MINISTL_SRC_CONTAINER_ASSOCIATIVE_RBTREE_H
 #include "../../Iterator/stl_iterator.h"
 #include "../../Allocator/allocator.h"
+#include "../../Algorithm/algorithm.h"
 #include <utility>
 
 namespace MINISTL{
@@ -169,6 +170,8 @@ public:
     typedef ptrdiff_t didfference_type;
 
     typedef __rb_tree_iterator<value_type, reference, pointer> iterator;
+    typedef __rb_tree_iterator<value_type, const reference, const pointer> const_iterator;
+    
 
 protected:
     //内存管理
@@ -262,6 +265,7 @@ private:
     iterator __insert(base_ptr x, base_ptr y, const value_type& v);
     link_type __copy(link_type x, link_type p);
     void __erase(link_type x);
+    base_ptr __rb_tree_erase_balance(base_ptr position, base_ptr& parent, base_ptr& left, base_ptr& right);
     //初始化header节点
     void init(){
         header = get_node();                //申请header内存
@@ -306,9 +310,28 @@ public:
     bool empty() const {return node_count == 0; }
     size_type size() const { return node_count; }
     size_type max_size() const { return size_type(-1); }
-
+    void swap(rb_tree<Key, Value, KeyofValue, Compare, Alloc>& rhs){
+        MINISTL::swap(header, rhs.header);
+        MINISTL::swap(leftmost(), rhs.leftmost());
+        MINISTL::swap(rightmost(), rhs.rightmost());
+    }
+    std::pair<iterator, iterator> equal_range(const key_type& k);
+    iterator lower_bound(const key_type& k);
+    iterator upper_bound(const key_type& k);
+    //insert_unique
     std::pair<iterator, bool> insert_unique(const value_type& x);
+    template <typename InputIterator>
+    void insert_unique(InputIterator first, InputIterator last);
+    // iterator insert_unique(iterator position,const value_type& x);
+
+    //insert_equal
     iterator insert_equal(const value_type& x);
+
+    //erase
+    void erase(iterator position);
+    size_type erase(const key_type& x);
+    void erase(iterator first, iterator last);
+
     iterator find(const Key& x);
 
     //还没有实现
@@ -370,6 +393,16 @@ rb_tree<Key, Value, KeyofValue, Compare, Alloc>::insert_unique(const Value& v){
     //表示存在重复值则不插入
     return std::pair<iterator, bool>(j, false);
 }
+
+template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+template <typename InputIterator>
+void rb_tree<Key, Value, KeyofValue, Compare, Alloc>::insert_unique(InputIterator first, InputIterator last){
+    for(; first != last; ++first){
+        insert_unique(*first);
+    }
+}
+
+
 
 //x节点左旋，这个动作其实很经典的，可以好好参考里面的逻辑
 inline void _rb_tree_rotate_left(__rb_tree_node_base* x, __rb_tree_node_base*& root){
@@ -577,6 +610,222 @@ void rb_tree<Key, Value, KeyofValue, Compare, Alloc>::__erase(link_type itr){
     }
 }
 
+
+
+
+//删除并调整，删除的先定位，再调整
+template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::base_ptr 
+rb_tree<Key, Value, KeyofValue, Compare, Alloc>::__rb_tree_erase_balance(base_ptr position, base_ptr& root, base_ptr& leftmost, base_ptr& rightmost){
+    //首先判断要删除的节点有没有子节点
+    base_ptr y = position;
+    base_ptr x = NULL;
+    base_ptr x_parent = NULL;
+    if(!y->left){
+        //如果被删除的节点没有左孩子则直接移动到右孩子
+        x = y->right;
+    }
+    else if(!y->right){
+        //如果被删除的节点没有右孩子则直接移动到左孩子
+        x = y->left;
+    }
+    else{
+        //被删除节点的左右孩子都存在，则寻找后继节点
+        y = y->right;
+        while(y->left){
+            y = y->left;
+        }
+        x = y->right;
+    }
+    if(y != position) {
+        // 若条件成立，此时y为position的后代,即上面的第三种情况
+        position->left->parent = y;
+        y->left = position->left;
+        if(y != position->right) {
+            x_parent = y->parent;
+            if(x){
+                x->parent = y->parent;
+            }
+            y->parent->left = x;
+            y->right = position->right;
+            position->right->parent = y;
+        }
+        else{
+            x_parent = y;
+        }
+        if(root == position)
+            root = y;
+        else if(position->parent->left == position)
+            position->parent->left = y;
+        else
+            position->parent->right = y;
+        y->parent = position->parent;
+        MINISTL::swap(y->color, position->color);
+        y = position;
+    }
+    else {
+        //这里是被删除的节点只有一个子节点，接下来进行替换
+        x_parent = y->parent;
+        if(x)
+            x->parent = y->parent;
+        if(root == position)
+            root = x;
+        else if(position->parent->left == position)
+            position->parent->left = x;
+        else
+            position->parent->right = x;
+        if(leftmost == position)
+            if(!position->right)
+                leftmost = position->parent;
+            else
+                leftmost = __rb_tree_node_base::minimum(x);
+        if(rightmost == position)
+            if(!position->left)
+                rightmost = position->parent;
+            else
+                rightmost = __rb_tree_node_base::maximum(x);
+    }
+    // 位置找到后，接下来进行调整。如果删除的节点是红色则不需要调整；如果删除的节点是黑色且为根节点也不需要调整
+    if(y->color != __rb_tree_red){
+        while( x != root && (!x || x->color == __rb_tree_black)){
+            if(x == x->parent->left){
+                //如果该节点是父节点的左子节点,w为兄弟节点
+                base_ptr w = x_parent->right;
+                if (w->color == __rb_tree_red) {
+                    //如果兄弟节点是红色（此时父节点与兄弟节点的子节点都是黑色）  情况1
+                    w->color = __rb_tree_black;
+                    x_parent->color = __rb_tree_red;
+                    _rb_tree_rotate_left(x_parent, root);
+                    w = x_parent->right;
+                }
+                if ((!w->left || w->left->color == __rb_tree_black) &&
+                    (!w->right || w->right->color == __rb_tree_black)) {
+                    //兄弟节点为黑色，且兄弟节点的子节点都为黑色                情况2
+                    w->color = __rb_tree_red;
+                    x = x_parent;
+                    x_parent = x_parent->parent;
+                }
+                else {
+                    //兄弟节点是黑色
+                    if (!w->right || w->right->color == __rb_tree_black) {
+                        //兄弟节点右孩子是黑色                              情况3
+                        if (w->left)
+                            w->left->color = __rb_tree_black;
+                        w->color = __rb_tree_red;
+                        _rb_tree_rotate_right(w, root);
+                        w = x_parent->right;
+                    }
+                    //兄弟节点的右孩子是红色                                 情况4
+                    w->color = x_parent->color;
+                    x_parent->color = __rb_tree_black;
+                    if (x->right)
+                        w->right->color = __rb_tree_black;
+                    _rb_tree_rotate_left(x_parent, root);
+                    break;
+                }
+            }
+            else{
+                //如果该节点是父节点的右子节点，和上面的情况对称
+                base_ptr w = x_parent->left;
+                if (w->color == __rb_tree_red) {
+                    w->color = __rb_tree_black;
+                    x_parent->color = __rb_tree_red;
+                    _rb_tree_rotate_right(x_parent, root);
+                    w = x_parent->left;
+                }
+                if ((!w->right || w->right->color == __rb_tree_black) &&
+                    (!w->left || w->left->color == __rb_tree_black)) {
+                    w->color = __rb_tree_red;
+                    x = x_parent;
+                    x_parent = x_parent->parent;
+                }
+                else {
+                    if (!w->left || w->left->color == __rb_tree_black) {
+                        if (w->right)
+                            w->right->color = __rb_tree_black;
+                        w->color = __rb_tree_red;
+                        _rb_tree_rotate_left(w, root);
+                        w = x_parent->left;
+                    }
+                    w->color = x_parent->color;
+                    x_parent->color = __rb_tree_black;
+                    if (w->left)
+                        w->left->color = __rb_tree_black;
+                    _rb_tree_rotate_right(x_parent, root);
+                    break;
+                }
+            }
+        }
+        if(x){
+            x->color = __rb_tree_black;
+        }
+    }
+    return y;
+}
+
+
+//以下为三种erase函数的重载
+template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+void rb_tree<Key, Value, KeyofValue, Compare, Alloc>::erase(iterator position){
+    link_type p = reinterpret_cast<link_type>(__rb_tree_erase_balance(position.node, header->parent, header->left, header->right));
+    destroy(p);
+    --node_count;
+}
+
+
+template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::size_type rb_tree<Key, Value, KeyofValue, Compare, Alloc>::erase(const key_type& x){
+    std::pair<iterator, iterator> p = equal_range(x);
+    size_type n = MINISTL::distance(p.first, p.second);
+    erase(p.first, p.second);
+    return n;
+}
+
+template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+void rb_tree<Key, Value, KeyofValue, Compare, Alloc>::erase(iterator first, iterator last){
+    if(first == begin() && last == end()){
+        clear();
+    }
+    else{
+        while(first != last){
+            erase(first++);
+        }
+    }
+}
+
+template<typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+std::pair<typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::iterator,typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::iterator> 
+rb_tree<Key, Value, KeyofValue, Compare, Alloc>::equal_range(const key_type& k){
+    return std::pair<iterator, iterator> (lower_bound(k), upper_bound(k));
+}
+
+
+
+template<typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::iterator 
+rb_tree<Key, Value, KeyofValue, Compare, Alloc>::lower_bound(const key_type& k){
+    link_type y = header;
+    link_type x = root();
+    while (x)
+        if(!key_compare(key(x), k))
+            y = x, x = left(x);
+        else
+            x = right(x);
+    return iterator(y);
+}
+
+template<typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::iterator 
+rb_tree<Key, Value, KeyofValue, Compare, Alloc>::upper_bound(const key_type& k){
+    link_type y = header;
+    link_type x = root();
+    while (x)
+        if (key_compare(k, key(x)))
+            y = x, x = left(x);
+        else
+            x = right(x);
+    return iterator(y);
+}
 
 }       //namespace MINISTL
 

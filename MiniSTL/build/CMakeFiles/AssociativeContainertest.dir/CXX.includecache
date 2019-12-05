@@ -6,6 +6,18 @@
 
 #IncludeRegexTransform: 
 
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/algorithm.h
+../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
+../Iterator/typetraits.h
+/home/chs/my_stl_learning/MiniSTL/src/Iterator/typetraits.h
+
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/./construct.h
+new
+-
+../Iterator/typetraits.h
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/Iterator/typetraits.h
+
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/alloc.h
 stdlib.h
 -
@@ -28,13 +40,55 @@ new
 ../Iterator/typetraits.h
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/typetraits.h
 
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/uninitialized.h
+./construct.h
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/./construct.h
+../Iterator/typetraits.h
+/home/chs/my_stl_learning/MiniSTL/src/Iterator/typetraits.h
+../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
+../Algorithm/algorithm.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/algorithm.h
+
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/./rb_tree.h
+../../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Iterator/stl_iterator.h
+../../Allocator/allocator.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Allocator/allocator.h
+../../Algorithm/algorithm.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Algorithm/algorithm.h
+utility
+-
+
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/map.h
+
 /home/chs/my_stl_learning/MiniSTL/src/Container/Associative/rb_tree.h
 ../../Iterator/stl_iterator.h
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
 ../../Allocator/allocator.h
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/allocator.h
+../../Algorithm/algorithm.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/algorithm.h
 utility
 -
+
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/set.h
+../../Functor/stl_function.h
+/home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
+../../Allocator/allocator.h
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/allocator.h
+./rb_tree.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/./rb_tree.h
+
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/vector.h
+../../Allocator/allocator.h
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/allocator.h
+../../Allocator/uninitialized.h
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/uninitialized.h
+../../Algorithm/algorithm.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/algorithm.h
+../../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
 
 /home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
 
@@ -53,4 +107,10 @@ gtest/gtest.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Associative/rb_tree.h
 ../src/Functor/stl_function.h
 /home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
+../src/Container/Associative/set.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/set.h
+../src/Container/Associative/map.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/map.h
+../src/Container/Sequence/vector.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/vector.h
 

@@ -7,6 +7,9 @@
 #include "gtest/gtest.h"
 #include "../src/Container/Associative/rb_tree.h"
 #include "../src/Functor/stl_function.h"
+#include "../src/Container/Associative/set.h"
+#include "../src/Container/Associative/map.h"
+#include "../src/Container/Sequence/vector.h"
 
 TEST(AssociativeContainer, rb_treeTest){
     //其实rb_tree只能在内部测试与使用
@@ -47,19 +50,47 @@ TEST(AssociativeContainer, rb_treeTest){
         printf("%d(%d) ",*ite_copy, rbtite.node->color);
     }
     printf("\n");
+    //insert(iterator first, iterator last) 测试
+    MINISTL::vector<int> vec;
+    vec.push_back(100);
+    vec.push_back(88);
+    vec.push_back(120);
+    vec.push_back(99);
+    myrbtree.insert_unique(vec.begin(), vec.end());
+    EXPECT_EQ(myrbtree.size(), 13);
+    ite = myrbtree.begin();
+    ite2 = myrbtree.end();
+    printf("after insert origin rb_tree : ");
+    for(; ite != ite2; ++ite){
+        auto rbtite = MINISTL::__rb_tree_base_iterator(ite);
+        printf("%d(%d) ",*ite,rbtite.node->color);
+    }
+    printf("\n");
     //find
     auto itr = myrbtree.find(12);
     EXPECT_EQ(*itr, 12);
     itr = myrbtree.find(22);
     EXPECT_EQ(itr, myrbtree.end());
+    //erase
+    myrbtree.erase(88);
+    myrbtree.erase(myrbtree.begin());
+    EXPECT_EQ(myrbtree.size(), 11);
+    ite = myrbtree.begin();
+    ite2 = myrbtree.end();
+    printf("after erase origin rb_tree : ");
+    for(; ite != ite2; ++ite){
+        auto rbtite = MINISTL::__rb_tree_base_iterator(ite);
+        printf("%d(%d) ",*ite,rbtite.node->color);
+    }
+    printf("\n");
 }
 
 TEST(AssociativeContainer, setTest){
-
+    printf("test set\n");
 }
 
 TEST(AssociativeContainer, mapTest){
-
+    printf("test map\n");
 }
 
 
