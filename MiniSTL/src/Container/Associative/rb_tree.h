@@ -192,7 +192,7 @@ protected:
     }
     //复制节点
     link_type clone_node(link_type x){
-        link_type tmp = create_node(x);
+        link_type tmp = create_node(x->value_field);
         tmp->color = x->color;
         tmp->left = 0;
         tmp->right = 0;
@@ -260,8 +260,8 @@ protected:
 
 private:
     iterator __insert(base_ptr x, base_ptr y, const value_type& v);
-    // link_type __copy(link_type x, link_type p);
-    // void __erase(link_type x);
+    link_type __copy(link_type x, link_type p);
+    void __erase(link_type x);
     //初始化header节点
     void init(){
         header = get_node();                //申请header内存
@@ -278,7 +278,27 @@ public:
         clear();
         put_node(header);
     }
-    // rb_tree<Key, Value, KeyofValue, Compare, Alloc>& operator = (const rb_tree<Key, Value, KeyofValue, Compare, Alloc>& x);
+
+    rb_tree<Key, Value, KeyofValue, Compare, Alloc>& operator = (const rb_tree<Key, Value, KeyofValue, Compare, Alloc>& rhs){
+        if(this == &rhs){
+            return *this;
+        }
+        clear();
+        node_count = 0;
+        key_compare = rhs.key_compare;
+        if(rhs.root()){
+            root() = __copy(rhs.root(), header);
+            leftmost() = minimum(root());
+            rightmost() = maximum(root());
+            node_count = rhs.node_count;
+        }
+        else{
+            root() = NULL;
+            leftmost() = header;
+            rightmost() = header;
+        }
+        return *this;
+    }
 
     Compare key_comp() const { return key_compare; }
     iterator begin() { return leftmost(); }
@@ -293,11 +313,16 @@ public:
 
     //还没有实现
     void clear(){
-
+        if(node_count != 0){
+            __erase(root());
+            root() = NULL;
+            leftmost() = header;
+            rightmost() = header;
+            node_count = 0;
+        }
     }
 };
 
-// __erase() __copy() operator=() 
 
 //表示插入的元素在树中可以重复
 template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
@@ -488,12 +513,69 @@ rb_tree<Key, Value, KeyofValue, Compare, Alloc>::__insert(base_ptr x__, base_ptr
     return iterator(z);
 }
 
+//红黑树中查找，这里的技巧在于，key_compare只能表示 < 为true，但是可以找到 = ，且还可以找到红黑树中是否有这个值
 template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
 typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::iterator 
-rb_tree<Key, Value, KeyofValue, Compare, Alloc>::find(const Key& x){
-    
+rb_tree<Key, Value, KeyofValue, Compare, Alloc>::find(const Key& k){
+    link_type y = header;   //y指向不小于k的最后一个元素(y >= k)
+    link_type x = root();   //x遍历
+    while(x){
+        if( !key_compare(key(x), k)){
+            //这里是x的值不小于k
+            y = x;
+            x = left(x);
+        }
+        else{
+            x = right(x);
+        }
+    }
+    iterator j = iterator(y);
+    //当j == end()表示没有找到, key_compare(k, key(j.node))表示 k < j(y) ，当这个条件不满足的时候即 k >= j(y) ，又因为前面条件是y >= k ，所以最后得到 y == k
+    return  (j == end()) || key_compare(k, key(j.node)) ? end() : j;
 }
 
+//红黑树的拷贝，用于operator =
+template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::link_type 
+rb_tree<Key, Value, KeyofValue, Compare, Alloc>::__copy(link_type from, link_type h){
+    link_type top = clone_node(from);
+    top->parent = h;
+    try
+    {
+        if(from->right){
+            top->right = __copy(right(from), top);
+        }
+        h = top;
+        from = left(from);
+        while (from) {
+            link_type p = clone_node(from);
+            h->left = p;
+            p->parent = h;
+            if (from->right)
+                p->right = __copy(right(from), p);
+            h = p;
+            from = left(from);
+        }
+    }
+    catch(const std::exception& e)
+    {
+        __erase(top);
+        std::cerr << e.what() << '\n';
+    }
+    return top;
+}
+
+//删除itr的所有子树，__erase(root())就是删除整个树
+template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+void rb_tree<Key, Value, KeyofValue, Compare, Alloc>::__erase(link_type itr){
+    //递归删除节点
+    while(itr){
+        __erase(right(itr));
+        link_type l = left(itr);
+        destroy_node(itr);
+        itr = l;
+    }
+}
 
 
 }       //namespace MINISTL

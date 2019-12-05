@@ -12,6 +12,7 @@ TEST(AssociativeContainer, rb_treeTest){
     //其实rb_tree只能在内部测试与使用
     printf("%s\n","begin to test rb_tree");
     MINISTL::rb_tree<int, int, MINISTL::identity<int>, MINISTL::less<int> > myrbtree;
+    MINISTL::rb_tree<int, int, MINISTL::identity<int>, MINISTL::less<int> > myrbtree_copy;
     EXPECT_TRUE(myrbtree.empty());
     EXPECT_EQ(myrbtree.size(), 0);
     myrbtree.insert_unique(10);
@@ -28,12 +29,29 @@ TEST(AssociativeContainer, rb_treeTest){
     EXPECT_EQ(myrbtree.size(), 9);
     auto ite = myrbtree.begin();
     auto ite2 = myrbtree.end();
+    printf("origin rb_tree : ");
     for(; ite != ite2; ++ite){
         auto rbtite = MINISTL::__rb_tree_base_iterator(ite);
         printf("%d(%d) ",*ite,rbtite.node->color);
     }
     printf("\n");
-
+    //增加operator=的测试
+    printf("copy rb_tree : ");
+    myrbtree_copy = myrbtree;
+    EXPECT_FALSE(myrbtree_copy.empty());
+    EXPECT_EQ(myrbtree_copy.size(), 9);
+    auto ite_copy = myrbtree_copy.begin();
+    auto ite2_copy = myrbtree_copy.end();
+    for(; ite_copy != ite2_copy; ++ite_copy){
+        auto rbtite = MINISTL::__rb_tree_base_iterator(ite_copy);
+        printf("%d(%d) ",*ite_copy, rbtite.node->color);
+    }
+    printf("\n");
+    //find
+    auto itr = myrbtree.find(12);
+    EXPECT_EQ(*itr, 12);
+    itr = myrbtree.find(22);
+    EXPECT_EQ(itr, myrbtree.end());
 }
 
 TEST(AssociativeContainer, setTest){
