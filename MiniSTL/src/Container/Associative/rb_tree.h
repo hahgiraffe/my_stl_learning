@@ -167,7 +167,7 @@ public:
     typedef const value_type& const_reference;
     typedef rb_tree_node* link_type;
     typedef size_t size_type;
-    typedef ptrdiff_t didfference_type;
+    typedef ptrdiff_t difference_type;
 
     typedef __rb_tree_iterator<value_type, reference, pointer> iterator;
     typedef __rb_tree_iterator<value_type, const reference, const pointer> const_iterator;
@@ -333,6 +333,7 @@ public:
     void erase(iterator first, iterator last);
 
     iterator find(const Key& x);
+    size_type count(const Key& x);
 
     //还没有实现
     void clear(){
@@ -567,6 +568,15 @@ rb_tree<Key, Value, KeyofValue, Compare, Alloc>::find(const Key& k){
     return  (j == end()) || key_compare(k, key(j.node)) ? end() : j;
 }
 
+
+template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::size_type 
+rb_tree<Key, Value, KeyofValue, Compare, Alloc>::count(const Key& x){
+    std::pair<iterator, iterator> itr = equal_range(x);
+    return MINISTL::distance(itr.first, itr.second);
+}
+
+
 //红黑树的拷贝，用于operator =
 template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
 typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::link_type 
@@ -793,6 +803,7 @@ void rb_tree<Key, Value, KeyofValue, Compare, Alloc>::erase(iterator first, iter
     }
 }
 
+//equal_range lower_bound upper_bound
 template<typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
 std::pair<typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::iterator,typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::iterator> 
 rb_tree<Key, Value, KeyofValue, Compare, Alloc>::equal_range(const key_type& k){
@@ -826,6 +837,28 @@ rb_tree<Key, Value, KeyofValue, Compare, Alloc>::upper_bound(const key_type& k){
             x = right(x);
     return iterator(y);
 }
+
+
+//operator == , operator <
+template<typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+bool operator == (const rb_tree<Key, Value, KeyofValue, Compare, Alloc>& lhs, const rb_tree<Key, Value, KeyofValue, Compare, Alloc>& rhs){
+    return lhs.size() == rhs.size() && MINISTL::equal(lhs.begin(), lhs.end(), rhs.begin());
+}
+
+template<typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+bool operator != (const rb_tree<Key, Value, KeyofValue, Compare, Alloc>& lhs, const rb_tree<Key, Value, KeyofValue, Compare, Alloc>& rhs){
+    return !(lhs == rhs);
+}
+
+
+// template<typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+// bool operator < (const rb_tree<Key, Value, KeyofValue, Compare, Alloc>& lhs, const rb_tree<Key, Value, KeyofValue, Compare, Alloc>& rhs){
+//     return lhs.size() == rhs.size() && MINISTL::equal(lhs.begin(), lhs.end(), rhs.begin());
+// }
+
+
+
+
 
 }       //namespace MINISTL
 

@@ -87,6 +87,38 @@ TEST(AssociativeContainer, rb_treeTest){
 
 TEST(AssociativeContainer, setTest){
     printf("test set\n");
+    //ctor
+    MINISTL::set<int> myset;
+    EXPECT_TRUE(myset.empty());
+    EXPECT_EQ(myset.size(), 0);
+    MINISTL::vector<int> vec;
+    for(int i = 0; i < 10; ++i){
+        vec.push_back(i);
+    }
+    MINISTL::set<int> myset_vec(vec.begin(), vec.end());
+    EXPECT_FALSE(myset_vec.empty());
+    EXPECT_EQ(myset_vec.size(), 10);
+    //count    
+    EXPECT_EQ(myset_vec.count(5), 1);
+    //insert find
+    myset_vec.insert(22);
+    EXPECT_EQ(myset_vec.size(), 11);
+    auto it = myset_vec.find(3);
+    EXPECT_EQ(*it, 3);
+    //equal_range lower_bound upper_bound
+    auto res = myset_vec.equal_range(8);
+    EXPECT_EQ(*res.first, 8);
+    EXPECT_EQ(*res.second, 9);
+    EXPECT_EQ(*myset_vec.lower_bound(6), 6);
+    EXPECT_EQ(*myset_vec.upper_bound(7), 8);
+    //erase
+    myset_vec.erase(11);
+    it = myset_vec.find(11);
+    EXPECT_EQ(it, myset_vec.end());
+    //clear
+    myset_vec.clear();
+    EXPECT_TRUE(myset_vec.empty());
+    EXPECT_EQ(myset_vec.size(), 0);
 }
 
 TEST(AssociativeContainer, mapTest){
