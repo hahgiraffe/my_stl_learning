@@ -49,6 +49,8 @@ new
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
 ../Algorithm/algorithm.h
 /home/chs/my_stl_learning/MiniSTL/src/Algorithm/algorithm.h
+string.h
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/string.h
 
 /home/chs/my_stl_learning/MiniSTL/src/Container/Associative/./rb_tree.h
 ../../Iterator/stl_iterator.h
@@ -61,6 +63,10 @@ utility
 -
 
 /home/chs/my_stl_learning/MiniSTL/src/Container/Associative/map.h
+./rb_tree.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/./rb_tree.h
+../../Functor/stl_function.h
+/home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
 
 /home/chs/my_stl_learning/MiniSTL/src/Container/Associative/rb_tree.h
 ../../Iterator/stl_iterator.h

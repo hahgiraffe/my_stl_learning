@@ -53,6 +53,30 @@ TEST(ContainerTest,VectorTest){
     EXPECT_EQ(vec.size(),0);
 }
 
+TEST(ContainerTest, VectorStringTest){
+    printf("begin test vector<string>\n");
+    // MINISTL::vector<std::string,MINISTL::allocator<std::string> > my_vec_str;
+    // my_vec_str.push_back("asdasd");
+    // my_vec_str.push_back("qwe");
+    // EXPECT_EQ(my_vec_str.size(), 2);
+    MINISTL::vector<std::string,MINISTL::allocator<std::string>> vec;
+    for(int i=0;i<10;++i){
+        vec.push_back(std::to_string(i));
+    }
+    EXPECT_EQ(vec.size(),10);
+    EXPECT_EQ(vec.front(),"0");
+    EXPECT_EQ(vec.back(), "9");
+    vec.push_back("www");
+    // for(int i=0; i<vec.size(); ++i){
+    //     printf("%s ", vec[i]);
+    // }
+    // printf("\n");
+    EXPECT_EQ(vec.size(),11);
+    EXPECT_EQ(vec.front(),"0");
+    EXPECT_EQ(vec.back(), "www");
+}
+
+
 TEST(ContainerTest, ListTest){
     printf("%s\n","begin test list");
     //ctor
@@ -141,7 +165,6 @@ TEST(ContainerTest, ListTest){
 
 }
 
-//deque、stack、queue都不能std::string
 TEST(ContainerTest, DequeTest){
     printf("%s\n","begin test deque<int>");
     //ctor

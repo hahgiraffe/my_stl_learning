@@ -11,7 +11,7 @@ namespace MINISTL{
 
 //constructor就是类似placement new的作用
 template <typename T1,typename T2>
-inline void construct(T1* p,const T2& value){
+inline void construct(T1* p, T2 value){
     new (p) T1(value);
 }
 

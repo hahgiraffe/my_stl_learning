@@ -9,18 +9,19 @@
 #include "../Iterator/typetraits.h"
 #include "../Iterator/stl_iterator.h"
 #include "../Algorithm/algorithm.h"
+#include "string.h"
 
 namespace MINISTL{
 
 //uninitialized_copy,将[first,last)移动到[res,res+last-first)
 template< typename InputIterator, typename ForwardIterator>
 ForwardIterator __uninitialized_copy_aux(InputIterator first, InputIterator last, ForwardIterator res, __true_type){
-    return copy(first, last, res);
+    return MINISTL::copy(first, last, res);
 }
 
 template< typename InputIterator, typename ForwardIterator>
 ForwardIterator __uninitialized_copy_aux(InputIterator first, InputIterator last, ForwardIterator res, __false_type){
-    ForwardIterator cur;
+    ForwardIterator cur = res;
     for(; first != last; ++first, ++cur){
         construct(&*cur, *first);
     }

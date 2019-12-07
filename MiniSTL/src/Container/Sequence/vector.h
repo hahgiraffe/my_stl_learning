@@ -77,10 +77,12 @@ public:
     reference back() { return *(end() - 1); }
     void push_back(const T& x){
         if(finish != end_of_storage){
+            // printf("1111\n");
             construct(finish,x);
             ++finish;
         }
         else{
+            // printf("2222\n");
             insert_aux(end(), x);
         }
     }
@@ -160,7 +162,8 @@ void vector<T, Alloc>::insert_aux(iterator position, const T& x){
             //将插入的元素放到新位置
             new_finish = MINISTL::uninitialized_copy(position, finish, new_finish);
         }
-        catch(...){
+        catch(const std::exception& e){
+            std::cerr << e.what() << '\n';
             destroy(new_start, new_finish);
             data_allocator::deallocate(new_start, len);
             throw;
