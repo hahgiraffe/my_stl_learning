@@ -11,6 +11,7 @@
 #include "../src/Container/Associative/map.h"
 #include "../src/Container/Sequence/vector.h"
 
+//string只测试了set<string>
 TEST(AssociativeContainer, rb_treeTest){
     //其实rb_tree只能在内部测试与使用
     printf("%s\n","begin to test rb_tree");
@@ -86,7 +87,7 @@ TEST(AssociativeContainer, rb_treeTest){
 }
 
 TEST(AssociativeContainer, setTest){
-    printf("test set\n");
+    printf("begin to test set<int>\n");
     //ctor
     MINISTL::set<int> myset;
     EXPECT_TRUE(myset.empty());
@@ -98,31 +99,58 @@ TEST(AssociativeContainer, setTest){
     MINISTL::set<int> myset_vec(vec.begin(), vec.end());
     EXPECT_FALSE(myset_vec.empty());
     EXPECT_EQ(myset_vec.size(), 10);
-    //count    
+    // count    
     EXPECT_EQ(myset_vec.count(5), 1);
-    //insert find
+    // insert find
     myset_vec.insert(22);
     EXPECT_EQ(myset_vec.size(), 11);
     auto it = myset_vec.find(3);
     EXPECT_EQ(*it, 3);
-    //equal_range lower_bound upper_bound
+    // *it = 4;    TODO 这里还有一个问题，就是没有搞好const_iterator，导致find出来的迭代器能赋值
+    // equal_range lower_bound upper_bound
     auto res = myset_vec.equal_range(8);
     EXPECT_EQ(*res.first, 8);
     EXPECT_EQ(*res.second, 9);
     EXPECT_EQ(*myset_vec.lower_bound(6), 6);
     EXPECT_EQ(*myset_vec.upper_bound(7), 8);
-    //erase
+    // erase
     myset_vec.erase(11);
     it = myset_vec.find(11);
     EXPECT_EQ(it, myset_vec.end());
-    //clear
+    // clear
     myset_vec.clear();
     EXPECT_TRUE(myset_vec.empty());
     EXPECT_EQ(myset_vec.size(), 0);
+    printf("begin to test set<std::string>\n");
+    MINISTL::vector<std::string> vec_str;
+    for(int i=0; i<100; ++i){
+        vec_str.push_back(std::to_string(i));
+    }
+    MINISTL::set<std::string> mystrset(vec_str.begin(), vec_str.end());
+    EXPECT_EQ(mystrset.size(), 100);
+    EXPECT_EQ(*mystrset.begin(),"0");
+    EXPECT_EQ(*mystrset.find("33"), "33");
+
+
 }
 
 TEST(AssociativeContainer, mapTest){
-    printf("test map\n");
+    printf("begin to test map<int, string>\n");
+    MINISTL::map<int, std::string> mymap;
+    mymap.insert({3,"123"});
+    mymap[5] = "52";
+    mymap[2] = "233";
+    for(auto itr = mymap.begin(); itr != mymap.end(); ++itr){
+        printf("%d(%s) ", itr->first, itr->second.c_str());
+    }
+    printf("\n");
+    EXPECT_EQ(mymap.size(), 3);
+    EXPECT_FALSE(mymap.empty());
+    auto it = mymap.find(2);
+    if(it == mymap.end()){
+        printf("not found\n");
+    }
+    EXPECT_EQ(it->second, "233");
 }
 
 

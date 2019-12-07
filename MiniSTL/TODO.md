@@ -12,16 +12,17 @@
 2. Iterator  （60/100）
 * Iterator类完成及测试
 * typetraits类型萃取剂完成
-3. Container （10/100）
+3. Container （60/100）
 * ~~vector (测试基本完成，一些mordern cpp的成员变量还未完成)~~
 * ~~list（测试基本完成）~~
 * ~~deque(目前不能适配std::string, 还没有operator == 已解决)~~
 * ~~queue~~
 * ~~stack~~
-* slist
+* ~~slist~~
 * ~~priority_queue(完成heap_algorithm以及test)~~
+* ~~rb_tree~~
 * map
-* set
+* set(还可以在迭代器上赋值，这里没有完成)
 * unordered_map
 * unordered_set
 4. Algorithm （0/100）

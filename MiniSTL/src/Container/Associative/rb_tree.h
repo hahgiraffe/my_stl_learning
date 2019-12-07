@@ -305,8 +305,8 @@ public:
     }
 
     Compare key_comp() const { return key_compare; }
-    iterator begin() { return leftmost(); }
-    iterator end() { return header; }
+    iterator begin() const{ return leftmost(); }
+    iterator end() const { return header; }
     bool empty() const {return node_count == 0; }
     size_type size() const { return node_count; }
     size_type max_size() const { return size_type(-1); }
@@ -332,6 +332,7 @@ public:
     size_type erase(const key_type& x);
     void erase(iterator first, iterator last);
 
+    const_iterator find(const Key& x) const;
     iterator find(const Key& x);
     size_type count(const Key& x);
 
@@ -549,8 +550,28 @@ rb_tree<Key, Value, KeyofValue, Compare, Alloc>::__insert(base_ptr x__, base_ptr
 
 //红黑树中查找，这里的技巧在于，key_compare只能表示 < 为true，但是可以找到 = ，且还可以找到红黑树中是否有这个值
 template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::const_iterator 
+rb_tree<Key, Value, KeyofValue, Compare, Alloc>::find(const Key& k) const{
+    link_type y = header;   //y指向不小于k的最后一个元素(y >= k)
+    link_type x = root();   //x遍历
+    while(x){
+        if( !key_compare(key(x), k)){
+            //这里是x的值不小于k
+            y = x;
+            x = left(x);
+        }
+        else{
+            x = right(x);
+        }
+    }
+    const_iterator j = iterator(y);
+    //当j == end()表示没有找到, key_compare(k, key(j.node))表示 k < j(y) ，当这个条件不满足的时候即 k >= j(y) ，又因为前面条件是y >= k ，所以最后得到 y == k
+    return  (j == end()) || key_compare(k, key(j.node)) ? end() : j;
+}
+
+template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
 typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::iterator 
-rb_tree<Key, Value, KeyofValue, Compare, Alloc>::find(const Key& k){
+rb_tree<Key, Value, KeyofValue, Compare, Alloc>::find(const Key& k) {
     link_type y = header;   //y指向不小于k的最后一个元素(y >= k)
     link_type x = root();   //x遍历
     while(x){

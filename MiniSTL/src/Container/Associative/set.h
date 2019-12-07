@@ -54,7 +54,7 @@ public:
     key_compare key_comp() const { return t.key_comp(); }
     value_compare value_comp() const { return t.key_comp(); }
     iterator begin() const { return t.begin(); }
-    iterator end() { return t.end(); }
+    iterator end() const { return t.end(); }
     //reverse_iterator
     bool empty() const { return t.empty(); }
     size_type size() const { return t.size(); }
@@ -90,7 +90,7 @@ public:
         t.erase((rep_iterator&)first, (rep_iterator&)last);
     }
 
-    iterator find(const key_type& x) { return t.find(x); }
+    iterator find(const key_type& x) const { return t.find(x); }
     size_type count(const key_type& x) { return t.count(x); }
     //返回指向首个小于等于给定键的元素的迭代器
     iterator lower_bound(const key_type& x) { return t.lower_bound(x); }
