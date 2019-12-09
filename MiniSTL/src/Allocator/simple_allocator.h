@@ -30,7 +30,7 @@ namespace MINISTL{
     }
 
     template <typename T1,typename T2>
-    inline void _construct(T1* p,const T2& value){//构造对象
+    inline void _construct(T1* p,const T2& value){//构造对象，可以理解为placement new的作用
         new(p) T1(value);
     }
 

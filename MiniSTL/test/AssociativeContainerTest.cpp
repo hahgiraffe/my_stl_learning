@@ -10,6 +10,8 @@
 #include "../src/Container/Associative/set.h"
 #include "../src/Container/Associative/map.h"
 #include "../src/Container/Sequence/vector.h"
+#include "../src/Container/Associative/multiset.h"
+#include "../src/Container/Associative/multimap.h"
 
 //string只测试了set<string>
 TEST(AssociativeContainer, rb_treeTest){
@@ -73,6 +75,7 @@ TEST(AssociativeContainer, rb_treeTest){
     itr = myrbtree.find(22);
     EXPECT_EQ(itr, myrbtree.end());
     //erase
+    // myrbtree.insert_equal(88);
     myrbtree.erase(88);
     myrbtree.erase(myrbtree.begin());
     EXPECT_EQ(myrbtree.size(), 11);
@@ -131,7 +134,6 @@ TEST(AssociativeContainer, setTest){
     EXPECT_EQ(*mystrset.begin(),"0");
     EXPECT_EQ(*mystrset.find("33"), "33");
 
-
 }
 
 TEST(AssociativeContainer, mapTest){
@@ -151,6 +153,67 @@ TEST(AssociativeContainer, mapTest){
         printf("not found\n");
     }
     EXPECT_EQ(it->second, "233");
+    mymap.erase(2);
+    EXPECT_EQ(mymap.find(2), mymap.end());
+}
+
+//这里有一个bug，就是调用insert_equal的时候erase是失败的（insert_unique是正常的）
+TEST(AssociativeContainer, multisetTest){
+    printf("begin to test multiset<int>\n");
+    //ctor
+    MINISTL::multiset<int> mymultiset;
+    EXPECT_TRUE(mymultiset.empty());
+    EXPECT_EQ(mymultiset.size(), 0);
+    mymultiset.insert(5);
+    mymultiset.insert(10);
+    mymultiset.insert(7);
+    mymultiset.insert(7);
+    // count    
+    EXPECT_EQ(mymultiset.count(7), 2);
+    // insert find
+    mymultiset.insert(22);
+    EXPECT_EQ(mymultiset.size(), 5);
+    auto it = mymultiset.find(5);
+    EXPECT_EQ(*it, 5);
+    // equal_range lower_bound upper_bound
+    auto res = mymultiset.equal_range(7);
+    EXPECT_EQ(*res.first, 7);
+    EXPECT_EQ(*res.second, 10);
+    EXPECT_EQ(*mymultiset.lower_bound(5), 5);
+    EXPECT_EQ(*mymultiset.upper_bound(7), 10);
+    // erase
+    // mymultiset.erase(5);
+    // EXPECT_EQ(mymultiset.size(), 4);
+    // EXPECT_EQ(*mymultiset.find(5), 5);
+    EXPECT_EQ(mymultiset.find(11), mymultiset.end());
+    // clear
+    mymultiset.clear();
+    EXPECT_TRUE(mymultiset.empty());
+    EXPECT_EQ(mymultiset.size(), 0);
+
+}
+
+//这里也有erase的bug
+TEST(AssociativeContainer, multimapTest){
+    printf("begin to test multimap<int, string>\n");
+    MINISTL::multimap<int, std::string> mymap;
+    mymap.insert({3,"123"});
+    mymap[5] = "52";
+    mymap[2] = "233";
+    mymap[2] = "sadadsf";
+    for(auto itr = mymap.begin(); itr != mymap.end(); ++itr){
+        printf("%d(%s) ", itr->first, itr->second.c_str());
+    }
+    printf("\n");
+    EXPECT_EQ(mymap.size(), 4);
+    EXPECT_FALSE(mymap.empty());
+    auto it = mymap.find(5);
+    if(it == mymap.end()){
+        printf("not found\n");
+    }
+    EXPECT_EQ(it->second, "52");
+    // mymap.erase(5);
+    // EXPECT_EQ(mymap.find(5), mymap.end());
 }
 
 

@@ -326,7 +326,9 @@ public:
 
     //insert_equal
     iterator insert_equal(const value_type& x);
-
+    template <typename InputIterator>
+    void insert_equal(InputIterator first, InputIterator last);
+    
     //erase
     void erase(iterator position);
     size_type erase(const key_type& x);
@@ -355,11 +357,19 @@ typename rb_tree<Key, Value, KeyofValue, Compare, Alloc>::iterator
 rb_tree<Key, Value, KeyofValue, Compare, Alloc>::insert_equal(const Value& v){
     link_type y = header;
     link_type x = root();   //根节点
-    while(x != 0){
+    while(x){
         y = x;
         x = key_compare(KeyofValue()(v), key(x)) ? left(x) : right(x);  //比较插入的元素与当前节点比较
     }
     return __insert(x, y, v);   //x为新值插入点，y为插入点的父节点，v为插入的值
+}
+
+template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
+template <typename InputIterator>
+void rb_tree<Key, Value, KeyofValue, Compare, Alloc>::insert_equal(InputIterator first, InputIterator last){
+    for(; first != last; ++first){
+        insert_equal(*first);
+    }
 }
 
 //表示插入的元素在树中独一无二
@@ -799,7 +809,7 @@ rb_tree<Key, Value, KeyofValue, Compare, Alloc>::__rb_tree_erase_balance(base_pt
 template <typename Key, typename Value, typename KeyofValue, typename Compare, typename Alloc>
 void rb_tree<Key, Value, KeyofValue, Compare, Alloc>::erase(iterator position){
     link_type p = reinterpret_cast<link_type>(__rb_tree_erase_balance(position.node, header->parent, header->left, header->right));
-    destroy(p);
+    destroy_node(p);
     --node_count;
 }
 

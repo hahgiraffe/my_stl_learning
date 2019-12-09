@@ -68,6 +68,20 @@ utility
 ../../Functor/stl_function.h
 /home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
 
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/multimap.h
+./rb_tree.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/./rb_tree.h
+../../Functor/stl_function.h
+/home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
+
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/multiset.h
+../../Functor/stl_function.h
+/home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
+../../Allocator/allocator.h
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/allocator.h
+./rb_tree.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/./rb_tree.h
+
 /home/chs/my_stl_learning/MiniSTL/src/Container/Associative/rb_tree.h
 ../../Iterator/stl_iterator.h
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
@@ -119,4 +133,8 @@ gtest/gtest.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Associative/map.h
 ../src/Container/Sequence/vector.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/vector.h
+../src/Container/Associative/multiset.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/multiset.h
+../src/Container/Associative/multimap.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/multimap.h
 
