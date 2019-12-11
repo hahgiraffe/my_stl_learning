@@ -5,6 +5,7 @@
  */
 #ifndef MINISTL_SRC_FUNCTOR_STL_FUNCTION_H
 #define MINISTL_SRC_FUNCTOR_STL_FUNCTION_H
+#include <stdio.h>
 
 namespace MINISTL{
 
@@ -23,6 +24,20 @@ struct binary_function{
     typedef Result result_type;
 };
 
+//equal_to && not_equal_to
+template <typename T>
+struct equal_to : public binary_function<T, T, bool>{
+    bool operator() (const T& x, const T& y) { 
+        // printf("123121313\n");
+        return x == y; 
+    }
+};
+
+template <typename T>
+struct not_equal_to : public binary_function<T, T, bool>{
+    bool operator() (const T& x, const T& y) { return x != y; }
+};
+
 //greater
 template <typename T>
 struct greater : public binary_function<T, T, bool>{
@@ -38,7 +53,7 @@ struct less : public binary_function<T, T, bool>{
 //identity，直接返回
 template <typename T> 
 struct identity : public unary_function<T, T> {
-    const T &operator()(const T& x) const {
+    const T& operator()(const T& x) const {
         return x;
     }
 };

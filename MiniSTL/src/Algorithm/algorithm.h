@@ -126,6 +126,58 @@ bool equal(Iterator lbegin, Iterator lend, Iterator rbegin){
     return true;
 }
 
+//lower_boud,返回第一个大于等于target的一个数
+//利用二分来查找左端点
+template <typename ForwardIterator, typename T, typename Distance>
+inline ForwardIterator __lower_bound(ForwardIterator first, ForwardIterator last, const T& value, Distance*, forward_iterator_tag){
+    Distance len = 0;
+    len = distance(first, last);
+    Distance half;
+    ForwardIterator middle;
+    while(len > 0){
+    half = len >> 1;
+        middle = first;
+        advance(middle, half);  //middle指向中间位置
+        if(*middle < value){
+            first = middle;
+            ++first;
+            len = len - half -1;
+        }
+        else{
+            len = half;
+        }
+    }
+    return first;
+}
+
+template <typename RandomAccessIterator, typename T, typename Distance>
+inline RandomAccessIterator __lower_bound(RandomAccessIterator first, RandomAccessIterator last, const T& value, Distance*, random_access_iterator_tag){
+    Distance len = last - first;
+    Distance half;
+    RandomAccessIterator middle;
+    while (len > 0) {
+        half = len >> 1;
+        middle = first;
+        middle = first + half;
+        if (*middle < value) {
+            first = middle + 1;
+            len = len - half - 1;
+        }
+        else
+            len = half;
+    }
+    return first;
+}
+
+
+//调用前一定要是有序的
+template <typename ForwardIterator, typename T>
+inline ForwardIterator lower_bound(ForwardIterator first, ForwardIterator last, const T& value){
+    return __lower_bound(first, last, value, difference_type(first) , iterator_category(first));
+}
+
+
+
 }   //namespace MINISTL
 
 #endif //MINISTL_SRC_ALGORITHM_ALGORITHM_H

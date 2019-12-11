@@ -12,6 +12,8 @@
 #include "../src/Container/Sequence/vector.h"
 #include "../src/Container/Associative/multiset.h"
 #include "../src/Container/Associative/multimap.h"
+#include "../src/Container/Associative/hashtable.h"
+#include "../src/Container/Associative/hash_fun.h"
 
 //string只测试了set<string>
 TEST(AssociativeContainer, rb_treeTest){
@@ -216,6 +218,46 @@ TEST(AssociativeContainer, multimapTest){
     // EXPECT_EQ(mymap.find(5), mymap.end());
 }
 
+TEST(AssociativeContainer, hashtableTest){
+    printf("begin to test hashtable<int, int, hash<int>, identity<int>, equal_to<int>, alloc>\n");
+    MINISTL::hashtable<int, int, MINISTL::hash<int>, MINISTL::identity<int>, MINISTL::equal_to<int> >
+        myht(50, MINISTL::hash<int>(), MINISTL::equal_to<int>());
+    EXPECT_EQ(myht.bucket_count(), 53);
+    EXPECT_EQ(myht.max_bucket_count(), 4294967291ul);
+    EXPECT_EQ(myht.size(), 0);
+    myht.insert_unique(59);
+    myht.insert_unique(63);
+    myht.insert_unique(108);
+    myht.insert_unique(2);
+    myht.insert_unique(53);
+    myht.insert_unique(55);
+    EXPECT_EQ(myht.size(), 6);
+    auto ite = myht.begin();
+    for(int i=0; i<myht.size(); ++i, ++ite){
+        printf("%d ",*ite);
+    }
+    printf("\n");
+    for(int i=0; i<myht.bucket_count(); ++i){
+        int n = myht.elems_in_bucket(i);
+        if(n){
+            printf("bucket[%d] has [%d] elems.\n", i, n);
+        }
+    }
+    //刻意把元素加到54个，让其发生rehash
+    for(int i=0; i<=47; ++i){
+        myht.insert_equal(i);
+    }
+    EXPECT_EQ(myht.size(), 54);
+    EXPECT_EQ(myht.bucket_count(), 97);
+    ite = myht.begin();
+    for(int i=0; i<myht.size(); ++i, ++ite){
+        printf("%d ",*ite);
+    }
+    printf("\n");
+    printf("find %d\n",*(myht.find(2)));
+    printf("count %d\n",myht.count(2));
+    
+}
 
 
 int main(int argc,char *argv[]){

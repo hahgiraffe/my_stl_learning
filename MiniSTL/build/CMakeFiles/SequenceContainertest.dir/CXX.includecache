@@ -129,6 +129,8 @@ stddef.h
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
 
 /home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
+stdio.h
+-
 
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
 stddef.h

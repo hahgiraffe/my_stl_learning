@@ -52,6 +52,10 @@ new
 string.h
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/string.h
 
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/./hash_fun.h
+stdlib.h
+-
+
 /home/chs/my_stl_learning/MiniSTL/src/Container/Associative/./rb_tree.h
 ../../Iterator/stl_iterator.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Iterator/stl_iterator.h
@@ -61,6 +65,22 @@ string.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Algorithm/algorithm.h
 utility
 -
+
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/hash_fun.h
+stdlib.h
+-
+
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/hashtable.h
+../../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
+../../Allocator/allocator.h
+/home/chs/my_stl_learning/MiniSTL/src/Allocator/allocator.h
+../../Container/Sequence/vector.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/vector.h
+../../Algorithm/algorithm.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/algorithm.h
+./hash_fun.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/./hash_fun.h
 
 /home/chs/my_stl_learning/MiniSTL/src/Container/Associative/map.h
 ./rb_tree.h
@@ -111,6 +131,8 @@ utility
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
 
 /home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
+stdio.h
+-
 
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
 stddef.h
@@ -137,4 +159,8 @@ gtest/gtest.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Associative/multiset.h
 ../src/Container/Associative/multimap.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Associative/multimap.h
+../src/Container/Associative/hashtable.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/hashtable.h
+../src/Container/Associative/hash_fun.h
+/home/chs/my_stl_learning/MiniSTL/src/Container/Associative/hash_fun.h
 

@@ -48,6 +48,7 @@ public:
     bool empty() const { return start ==  finish; }
     //注意这里返回引用才能更改
     reference operator[](size_type n) { return *(begin() + n); }
+    void swap(vector& vec);
 
     //ctor dtor
     vector() : start(0), finish(0), end_of_storage(0) { }
@@ -106,9 +107,64 @@ public:
         finish -= (last - first);
         return first;
     }
-    //TODO
-    void insert(iterator first, size_type sz, const T& value){
-
+    void insert(iterator first, size_type n, const T& value){
+        if(n == 0) return;
+        if(size_type(end_of_storage - finish) >= n){
+            //vector的备用空间大于新增元素个数
+            T value_copy = value;
+            const size_type elems_after = finish - first;   //插入节点之后的现有元素
+            iterator old_finish = finish;
+            if(elems_after > n){
+                //如果插入后的现有元素个数 > 新增元素个数
+                MINISTL::uninitialized_copy(finish - n, finish,finish);
+                finish += n;
+                MINISTL::copy_backward(first, old_finish - n, old_finish);
+                MINISTL::fill(first, first + n, value_copy);
+            }
+            else{
+                MINISTL::uninitialized_fill_n(finish, n - elems_after, value_copy);
+                finish += n - elems_after;
+                uninitialized_copy(first, old_finish, finish);
+                finish += elems_after;
+                MINISTL::fill(first, old_finish, value_copy);
+            }
+        }
+        else{
+            //如果插入后的现有元素个数 <= 新增元素个数
+            const size_type old_size = size();
+            const size_type len = old_size + max(old_size, n);
+            iterator new_start = data_allocator::allocate(len);
+            iterator new_finish = new_start;
+            try
+            {
+                new_finish = MINISTL::uninitialized_copy(start, first, new_start);
+                new_finish = MINISTL::uninitialized_fill_n(new_finish, n, value);
+                new_finish = MINISTL::uninitialized_copy(first, finish, new_finish);
+            }
+            catch(const std::exception& e)
+            {
+                destroy(new_start, new_finish);
+                data_allocator::deallocate(new_start, len);
+                std::cerr << e.what() << '\n';
+            }
+            destroy(start, finish);
+            deallocate();
+            start = new_start;
+            finish = new_finish;
+            end_of_storage = new_start + len;
+        }
+    }
+    void reserve(size_type n){
+        if(n < capacity()){
+            return;
+        }
+        T* newstart = data_allocator::allocate(n);
+        T* newfinish = MINISTL::uninitialized_copy(start, finish, newstart);
+        destroy(start, finish);
+        deallocate();
+        start = newstart;
+        finish = newfinish;
+        end_of_storage = start + n;
     }
     void resize(size_type newsize, const T& x){
         //如果resize大小小于当前大小，则把多余的删除，否则插入新增的空间
@@ -178,7 +234,14 @@ void vector<T, Alloc>::insert_aux(iterator position, const T& x){
     }
 }
 
+template <typename T, typename Alloc>
+void vector<T, Alloc>::swap(vector& vec){
+    MINISTL::swap(start, vec.start);
+    MINISTL::swap(finish, vec.finish);
+    MINISTL::swap(end_of_storage, vec.end_of_storage);
 }
+
+}   //namespace MINISTL
 
 #endif //MINISTL_SRC_CONTAINER_SEQUENCE_VECTOR_H
 

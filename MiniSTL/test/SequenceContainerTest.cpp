@@ -13,6 +13,11 @@
 #include "gtest/gtest.h"
 #include <printf.h>
 
+struct Myclass{
+    int a;
+    Myclass* next;
+};
+
 //测试vector,注意要测试每一个成员函数
 TEST(ContainerTest,VectorTest){
     printf("%s\n","begin test vector");
@@ -45,12 +50,25 @@ TEST(ContainerTest,VectorTest){
     }
     EXPECT_EQ(vec.size(),99);
     //vec.resize()
-    vec.resize(3);
+    // vec.resize(3);
     // std::cout<<"after resize"<<vec[0]<<" "<<vec[1]<<" "<<vec[2]<<std::endl;
-    EXPECT_EQ(vec.size(),3);
+    // EXPECT_EQ(vec.size(),3);
+    // insert
+    vec.insert(vec.end(), 3, 100);
+    EXPECT_EQ(vec.size(), 102);
+    EXPECT_EQ(vec.back(), 100);
     //vec.clear()
     vec.clear();
     EXPECT_EQ(vec.size(),0);
+
+    //TEST new_vec;
+    MINISTL::vector<Myclass*> myvec;
+    myvec.reserve(3);
+    myvec.insert(myvec.end(), 3, (Myclass*)0);
+    EXPECT_EQ(myvec.size(), 3);
+    // myvec[0]->a = 3;
+
+
 }
 
 TEST(ContainerTest, VectorStringTest){
