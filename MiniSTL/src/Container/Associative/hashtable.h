@@ -103,6 +103,7 @@ public:
     typedef Value* pointer;
     typedef Value& reference;
     typedef size_t size_type;
+    typedef ptrdiff_t difference_type;
     typedef hashtable_iterator<Value, Key, HashFun, ExtractKey, EqualKey, Alloc> iterator;
 
 private:
@@ -157,6 +158,7 @@ public:
     hasher hash_funct() const { return hash;}
     key_equal key_eq() const { return equals;}
     size_type size() const { return num_elements; }
+    size_type max_size() const { return size_type(-1); }
     size_type bucket_count() const { return buckets.size();}                                //返回bucket个数
     bool empty() const { return num_elements == 0 ? true : false;}
     size_type next_size(size_type n) const { return MINISTL::__stl_next_prime(n); }
@@ -166,6 +168,7 @@ public:
     void copy_from(const hashtable& ht);
     iterator find(const key_type& v);
     size_type count(const key_type& v);
+    pair<iterator, iterator> equal_range(const key_type& k);
     size_type elems_in_bucket(size_type i) {
         node* tmp = buckets[i];
         size_type res = 0;
@@ -186,12 +189,34 @@ public:
     iterator end(){
         return iterator(NULL, this);
     }
-    //insert
+    void swap(hashtable& hst){
+        MINISTL::swap(hash, hst.hash);
+        MINISTL::swap(equals, hst.equals);
+        MINISTL::swap(get_key, hst.get_key);
+        MINISTL::swap(num_elements, hst.num_elements);
+        buckets.swap(hst.buckets);
+    }
+    //insert_unique
     pair<iterator, bool> insert_unique(const value_type& v);
     pair<iterator, bool> insert_unique_noresize(const value_type& v);
+    template <class InputIterator> 
+    void insert_unique(InputIterator first, InputIterator last) {
+        insert_unique(first, last, iterator_category<InputIterator>());
+    }
+    template <class ForwardIterator> 
+    void insert_unique(ForwardIterator, ForwardIterator, forward_iterator_tag);
+    template <class InputIterator> 
+    void insert_unique(InputIterator, InputIterator, input_iterator_tag);
+    
+    //insert_equal
     iterator insert_equal(const value_type& v);
     iterator insert_equal_noresize(const value_type& v);
-
+    
+    //erase
+    size_type erase(const key_type& v);
+    void erase(const iterator&);
+    // void erase(iterator, iterator);  
+    
     //bkt_num,计算实值在哪个bucket中
     size_type bkt_num_key(const key_type& key, size_t n) const { return hash(key) % n;}
     size_type bkt_num_key(const key_type& key) const { return bkt_num_key(key, buckets.size());}
@@ -286,6 +311,24 @@ hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::insert_unique(const 
     return insert_unique_noresize(v);
 }
 
+template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
+template <class ForwardIterator> 
+void hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::insert_unique(ForwardIterator first, ForwardIterator last, forward_iterator_tag){
+    size_type n = distance(first, last);
+    resize(num_elements + n);
+    for(; n>0; --n, ++first){
+        insert_unique_noresize(*first);
+    }
+}
+    
+template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
+template <class InputIterator> 
+void hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::insert_unique(InputIterator first, InputIterator last, input_iterator_tag){
+    for(first; first != last; ++first){
+        insert_unique(*first);
+    }
+}
+ 
 //不需要resize时候插入不可重复的节点
 template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
 pair< typename hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::iterator, bool> 
@@ -307,7 +350,6 @@ hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::insert_unique_noresi
     buckets[n] = tmp;
     ++num_elements;
     return pair<iterator, bool>(iterator(tmp, this), true);
-
 }
 
 template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
@@ -363,6 +405,123 @@ hashtable<Value, Key, HashFun, ExtractKey, EqualKey, Alloc>::count(const key_typ
     }
     return result;
 }
+
+
+template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
+pair<typename hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::iterator, typename hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::iterator> 
+hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::equal_range(const key_type& k){
+    const size_type n = bkt_num_key(k);
+    //先找出bucket的n，然后在里面遍历
+    for(node* first = buckets[n]; first; first = first->next){
+        if(equals(get_key(first->val), k)){
+            //如果找到first指针值则记录下，接着遍历找end
+            for(node* cur = first->next; cur; cur = cur->next){
+                if(!equals(get_key(cur->val), k)){
+                    return pair<iterator, iterator>(iterator(first, this), iterator(cur, this));
+                }
+            }
+            //如果bucket[n]中first后面都是k值，则往后遍历n，如果有则返回
+            for(size_type m = n+1; m < buckets.size(); ++m){
+                if(buckets[m]){
+                    return pair<iterator, iterator>(iterator(first, this), iterator(buckets[m], this));
+                }
+            }
+            //如果bucket[n]之后都没有了则返回end
+            return pair<iterator, iterator>(iterator(first, this), end());
+        }
+    }
+    return pair<iterator, iterator>(end(), end());
+}
+
+template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
+typename hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::size_type 
+hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::erase(const key_type& v){
+    //整体思路就是首先找到对应的bucket，然后以此遍历，过程就是单链表中删除一个元素
+    const size_type n = bkt_num_key(v);
+    node* first = buckets[n];
+    size_type erased = 0;
+    if(first){
+        node* cur = first;
+        node* next = cur->next;
+        while(next){
+            if(equals(get_key(next->val), v)){
+                cur->next = next->next;
+                delete_node(next);
+                next = cur->next;
+                ++erased;
+                --num_elements;
+            }
+            else{
+                cur = next;
+                next = cur->next;
+            }
+        }
+        if(equals(get_key(first->val), v)){
+            buckets[n] = first->next;
+            delete_node(first);
+            ++erased;
+            --num_elements;
+        }
+    }
+    return erased;
+}
+
+template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
+void hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::erase(const iterator& it){
+    node* p = it.cur;
+    if(p){
+        size_type n = bkt_num_key(p->val);
+        node* cur = buckets[n];
+        if(cur == p){
+            buckets[n] = cur->next;
+            delete_node(cur);
+            --num_elements;
+        }
+        else{
+            node *next = cur->next;
+            while(next){
+                if(next == p){
+                    cur->next = next->next;
+                    delete_node(next);
+                    --num_elements;
+                    break;
+                }
+                else {
+                    cur = next;
+                    next = cur->next;
+                }
+            }
+        }
+    }
+}
+
+// template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
+// void hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::erase(iterator first, iterator last){
+//     size_type f_bucket = first.cur ? bkt_num(first.cur->val) : buckets.size();
+//     size_type l_bucket = last.cur ? bkt_num(last.cur->val) : buckets.size();
+//     if(first.cur == last.cur){
+//         return;
+//     }
+//     else{
+
+//     }
+// }
+
+template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
+inline bool operator==(hashtable<Value, Key, HashFun, ExtractKey, EqualKey, Alloc>& lhs,
+                hashtable<Value, Key, HashFun, ExtractKey, EqualKey, Alloc>& rhs) {
+    if (lhs.buckets.size() != rhs.buckets.size())
+        return false;
+    for (int n = 0; n < lhs.buckets.size(); ++n) {
+        typename hashtable<Value, Key, HashFun, ExtractKey, EqualKey, Alloc>::node *cur1 = lhs.buckets[n];
+        typename hashtable<Value, Key, HashFun, ExtractKey, EqualKey, Alloc>::node *cur2 = rhs.buckets[n];
+        for (; cur1 && cur2 && cur1->val == cur2->val; cur1 = cur1->next, cur2 = cur2->next) { }
+        if (cur1 || cur2)
+            return false;
+    }
+    return true;
+}
+ 
 
 }       //namespace MINISTL
 

@@ -14,6 +14,8 @@
 #include "../src/Container/Associative/multimap.h"
 #include "../src/Container/Associative/hashtable.h"
 #include "../src/Container/Associative/hash_fun.h"
+#include "../src/Container/Associative/unordered_set.h"
+#include "../src/Container/Associative/unordered_map.h"
 
 //string只测试了set<string>
 TEST(AssociativeContainer, rb_treeTest){
@@ -259,6 +261,39 @@ TEST(AssociativeContainer, hashtableTest){
     
 }
 
+TEST(AssociativeContainer, unordered_set){
+    printf("begin to test unordered_set<int>\n");
+    MINISTL::unordered_set<int> myunset;
+    EXPECT_TRUE(myunset.empty());
+    EXPECT_EQ(myunset.size(), 0);
+    myunset.insert(3);
+    myunset.insert(196);
+    myunset.insert(1);
+    myunset.insert(389);
+    myunset.insert(194);
+    myunset.insert(387);
+    EXPECT_FALSE(myunset.empty());
+    EXPECT_EQ(myunset.size(),6); 
+    MINISTL::unordered_set<int>::iterator ite1 = myunset.begin();
+    MINISTL::unordered_set<int>::iterator ite2 = myunset.end();
+    for(; ite1 != ite2; ++ite1){
+        printf("%d ",*ite1);
+    }
+    printf("\n");
+    myunset.erase(194);
+    myunset.erase(myunset.begin());
+    EXPECT_EQ(myunset.size(), 4);
+    // EXPECT_EQ(myunset.count(1), 0);
+    ite1 = myunset.begin();
+    for(; ite1 != ite2; ++ite1){
+        printf("%d ",*ite1);
+    }
+    printf("\n");
+    auto res = myunset.equal_range(389);
+    EXPECT_EQ(*res.first,389);
+    EXPECT_NE(*res.second,389);
+
+}
 
 int main(int argc,char *argv[]){
     ::testing::InitGoogleTest(&argc,argv);
