@@ -58,10 +58,10 @@ struct identity : public unary_function<T, T> {
     }
 };
 
-//select1st select2nd
+//select1st select2nd 注意要声明为const，因为调用时候的函数也是const
 template <typename Pair>
 struct select1st : public unary_function<Pair, typename Pair::first_type>{
-    const typename Pair::first_type& operator()(const Pair& x){
+    const typename Pair::first_type& operator()(const Pair& x) const{
         return x.first;
     }
 };

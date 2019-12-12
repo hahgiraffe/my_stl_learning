@@ -167,6 +167,7 @@ public:
     void clear();
     void copy_from(const hashtable& ht);
     iterator find(const key_type& v);
+    reference find_or_insert(const value_type &);   //for map used
     size_type count(const key_type& v);
     pair<iterator, iterator> equal_range(const key_type& k);
     size_type elems_in_bucket(size_type i) {
@@ -201,7 +202,7 @@ public:
     pair<iterator, bool> insert_unique_noresize(const value_type& v);
     template <class InputIterator> 
     void insert_unique(InputIterator first, InputIterator last) {
-        insert_unique(first, last, iterator_category<InputIterator>());
+        insert_unique(first, last, iterator_category(first));
     }
     template <class ForwardIterator> 
     void insert_unique(ForwardIterator, ForwardIterator, forward_iterator_tag);
@@ -211,6 +212,14 @@ public:
     //insert_equal
     iterator insert_equal(const value_type& v);
     iterator insert_equal_noresize(const value_type& v);
+    template <typename InputIterator>
+    void insert_equal(InputIterator first, InputIterator last){
+        insert_equal(first, last, iterator_category(first));
+    }
+    template <class ForwardIterator> 
+    void insert_equal(ForwardIterator, ForwardIterator, forward_iterator_tag);
+    template <class InputIterator> 
+    void insert_equal(InputIterator, InputIterator, input_iterator_tag);
     
     //erase
     size_type erase(const key_type& v);
@@ -382,6 +391,24 @@ hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::insert_equal_noresiz
     return iterator(tmp, this);
 }
 
+template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
+template <class ForwardIterator> 
+void hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::insert_equal(ForwardIterator first, ForwardIterator last, forward_iterator_tag){
+    size_type n = distance(first, last);
+    resize(num_elements + n);
+    for (; n > 0; --n, ++first){
+        insert_equal_noresize(*first);
+    }
+}
+
+template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
+template <class InputIterator> 
+void hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::insert_equal(InputIterator first, InputIterator last, input_iterator_tag){
+    for (; first != last; ++first){
+        insert_equal(*first);
+    }
+}
+ 
 
 template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
 typename hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::iterator 
@@ -507,6 +534,26 @@ void hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::erase(const ite
 //     }
 // }
 
+//用于map的[],先查找如果没有找到则插入元素，找到则返回
+template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
+typename hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::reference 
+hashtable<Value, Key,HashFun, ExtractKey, EqualKey, Alloc>::find_or_insert(const value_type & v){
+    resize(num_elements+1);
+    size_type n = bkt_num(v);
+    node* first = buckets[n];
+    for(node* cur = first; cur ; cur = cur->next){
+        if(equals(get_key(cur->val), get_key(v))){
+            return cur->val;
+        }
+    }
+    //如果没有找到则在头结点进行插入
+    node* tmp = new_node(v);
+    tmp->next = first;
+    buckets[n] = tmp;
+    ++num_elements;
+    return tmp->val;
+}
+ 
 template <typename Value, typename Key, typename HashFun, typename ExtractKey, typename EqualKey, typename Alloc>
 inline bool operator==(hashtable<Value, Key, HashFun, ExtractKey, EqualKey, Alloc>& lhs,
                 hashtable<Value, Key, HashFun, ExtractKey, EqualKey, Alloc>& rhs) {
@@ -521,7 +568,6 @@ inline bool operator==(hashtable<Value, Key, HashFun, ExtractKey, EqualKey, Allo
     }
     return true;
 }
- 
 
 }       //namespace MINISTL
 

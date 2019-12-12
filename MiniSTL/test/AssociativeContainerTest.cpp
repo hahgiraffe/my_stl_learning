@@ -4,6 +4,7 @@
  * @Description: 测试关联容器
  */
 #include <stdio.h>
+#include <string.h>
 #include "gtest/gtest.h"
 #include "../src/Container/Associative/rb_tree.h"
 #include "../src/Functor/stl_function.h"
@@ -16,6 +17,9 @@
 #include "../src/Container/Associative/hash_fun.h"
 #include "../src/Container/Associative/unordered_set.h"
 #include "../src/Container/Associative/unordered_map.h"
+#include "../src/Container/Associative/unordered_multimap.h"
+#include "../src/Container/Associative/unordered_multiset.h"
+#include "../src/Container/Associative/hash_fun.h"
 
 //string只测试了set<string>
 TEST(AssociativeContainer, rb_treeTest){
@@ -261,6 +265,22 @@ TEST(AssociativeContainer, hashtableTest){
     
 }
 
+struct eqstr{
+    bool operator() (const char* s1, const char* s2){
+        return strcmp(s1, s2) == 0;
+    }
+};
+
+void lookup(MINISTL::unordered_set<const char*, MINISTL::hash<const char*>, eqstr>& s, const char* word){
+    auto it = s.find(word);
+    if(it == s.end()){
+        printf("%s not present\n", word);
+    }
+    else{
+        printf("%s present\n", word);
+    }
+}
+
 TEST(AssociativeContainer, unordered_set){
     printf("begin to test unordered_set<int>\n");
     MINISTL::unordered_set<int> myunset;
@@ -292,8 +312,102 @@ TEST(AssociativeContainer, unordered_set){
     auto res = myunset.equal_range(389);
     EXPECT_EQ(*res.first,389);
     EXPECT_NE(*res.second,389);
+    //operator == 还么有测试，等到实现拷贝构造和拷贝赋值运算符再测试
 
+    printf("begin to test unordered_map<char*>\n");
+    MINISTL::unordered_set<const char*, MINISTL::hash<const char*>, eqstr> mystrset;
+    mystrset.insert("kiwi");
+    mystrset.insert("plum");
+    mystrset.insert("apple");
+    mystrset.insert("mango");
+    mystrset.insert("apricot");
+    mystrset.insert("banana");
+    lookup(mystrset, "kiwi");
+    lookup(mystrset, "plum");
+    lookup(mystrset, "apple");
+    lookup(mystrset, "mango");
+    lookup(mystrset, "apricot");
+    lookup(mystrset, "banana");
+    auto it1 = mystrset.begin();
+    for(it1; it1 != mystrset.end(); ++it1){
+        printf("%s ", *it1);
+    }
+    printf("\n");
 }
+
+TEST(AssociativeContainer, unordered_map){
+    printf("begin to test unordered_map\n");
+    // MINISTL::unordered_map<int, int> myunmap;
+    // myunmap.insert(MINISTL::pair<int, int>(2,3));
+    MINISTL::unordered_map<const char*, int, MINISTL::hash<const char*>, eqstr> days;
+    // MINISTL::pair<const char*, int> p("jan",1);
+    // auto ans = days.insert(p);
+    days["jan"] = 31;
+    days["feb"] = 28;
+    days["mar"] = 31;
+    days["apr"] = 30;
+    days["may"] = 31;
+    days["jun"] = 30;
+    days["july"] = 31;
+    days["aug"] = 31;
+    days["sep"] = 30;
+    days["oct"] = 31;
+    days["nov"] = 30;
+    days["dec"] = 31;
+    printf("sep is %d\n", days["sep"]);
+    printf("jun is %d\n", days["jun"]);
+    printf("feb is %d\n", days["feb"]);
+    printf("dec is %d\n", days["dec"]);
+    auto it1 = days.begin();
+    for(; it1 != days.end(); ++it1){
+        printf("%s ", it1->first);
+    }
+    printf("\n");
+    EXPECT_EQ(days.size(), 12);
+    EXPECT_FALSE(days.empty());
+    days.insert(MINISTL::pair<const char*, int>("chs",100));
+    EXPECT_EQ(days.size(), 13);
+    printf("chs is %d\n", days["chs"]);
+    
+}
+
+TEST(AssociativeContainer, unordered_multiset){
+    printf("begin to test unordered_multiset\n");
+    MINISTL::vector<int> myvec;
+    myvec.push_back(12);
+    myvec.push_back(42);
+    myvec.push_back(112);
+    myvec.push_back(72);
+    myvec.push_back(32);
+    MINISTL::unordered_multiset<int> myunmuset(myvec.begin(), myvec.end());
+    EXPECT_EQ(myunmuset.size(), 5);
+    EXPECT_FALSE(myunmuset.empty());
+    auto it = myunmuset.begin();
+    for(; it != myunmuset.end(); ++it){
+        printf("%d ",*it);
+    }
+    printf("\n");
+}
+
+TEST(AssociativeContainer, unordered_multimap){
+    printf("begin to test unordered_multiset\n");
+    MINISTL::unordered_multimap<int, int> munorder_multimap_str;
+    // munorder_multimap_str.insert(MINISTL::pair<int, int>(123,444));
+    munorder_multimap_str.insert({123,444});
+    munorder_multimap_str.insert({99,44});
+    munorder_multimap_str.insert({1,464});
+    munorder_multimap_str.insert({42,4474});
+    munorder_multimap_str.insert({153,44564});
+    munorder_multimap_str.insert({14,144});
+    EXPECT_EQ(munorder_multimap_str.size(), 6);
+    EXPECT_FALSE(munorder_multimap_str.empty());
+    auto it = munorder_multimap_str.begin();
+    for(; it != munorder_multimap_str.end(); ++it){
+        printf("%d(%d)",it->first, it->second);
+    }
+    printf("\n");
+}
+
 
 int main(int argc,char *argv[]){
     ::testing::InitGoogleTest(&argc,argv);
