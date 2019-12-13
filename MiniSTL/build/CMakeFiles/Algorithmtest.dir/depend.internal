@@ -4,6 +4,7 @@
 CMakeFiles/Algorithmtest.dir/test/AlgorithmTest.cpp.o
  /home/chs/my_stl_learning/MiniSTL/src/Algorithm/algorithm.h
  /home/chs/my_stl_learning/MiniSTL/src/Algorithm/heap_algorithm.h
+ /home/chs/my_stl_learning/MiniSTL/src/Algorithm/numeric_algo.h
  /home/chs/my_stl_learning/MiniSTL/src/Allocator/./construct.h
  /home/chs/my_stl_learning/MiniSTL/src/Allocator/alloc.h
  /home/chs/my_stl_learning/MiniSTL/src/Allocator/allocator.h

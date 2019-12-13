@@ -66,6 +66,18 @@ struct select1st : public unary_function<Pair, typename Pair::first_type>{
     }
 };
 
+//minus
+template <typename T>
+struct minus : public binary_function<T, T, T>{
+    T operator()(const T& x, const T& y) const { return x - y; }
+};
+
+//plus
+template <typename T>
+struct plus : public binary_function<T, T, T>{
+    T operator()(const T& x, const T& y) const { return x + y; }
+};
+
 
 }   //namespace MINISTL
 

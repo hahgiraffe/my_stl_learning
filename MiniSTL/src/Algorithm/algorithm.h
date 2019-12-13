@@ -7,6 +7,7 @@
 #define MINISTL_SRC_ALGORITHM_ALGORITHM_H
 #include "../Iterator/stl_iterator.h"
 #include "../Iterator/typetraits.h"
+// #include "../Container/Associative/map.h" //注意依赖的问题
 
 namespace MINISTL{
 
@@ -111,20 +112,175 @@ void swap(T& a, T& b){
 
 //max
 template <typename T>
-T max(T a, T b) { return a < b ? b : a; }
+inline const T& max(const T& a, const T& b) { return a < b ? b : a; }
+
+template <typename T, typename Compare>
+inline const T& max(const T& a, const T& b, Compare comp) { return comp(a, b) ? b : a; }
+
 
 //min
 template <typename T>
-T min(T a, T b) { return a < b ? a : b; }
+inline const T& min(const T& a, const T& b) { return a < b ? a : b; }
+
+template <typename T, typename Compare>
+inline const T& min(const T& a, const T& b, Compare comp) { return comp(a, b) ? a : b; }
+
 
 //equal
-template <typename Iterator>
-bool equal(Iterator lbegin, Iterator lend, Iterator rbegin){
-    for(Iterator itr = lbegin; itr != lend; ++itr){
+template <typename Iterator1, typename Iterator2>
+bool equal(Iterator1 lbegin, Iterator1 lend, Iterator2 rbegin){
+    for(Iterator1 itr = lbegin; itr != lend; ++itr){
         if(*itr != *rbegin++) return false; 
     }
     return true;
 }
+
+template <typename Iterator1, typename Iterator2, typename BinaryPredicate>
+inline bool equal(Iterator1 lbegin, Iterator1 lend, Iterator2 rbegin, BinaryPredicate bp){
+    for(Iterator1 itr = lbegin; itr != lend; ++itr){
+        if(!bp(*itr,*rbegin++)) return false; 
+    }
+    return true;
+}
+
+//iter_swap交换指针所指的元素
+template <typename ForwardIterator1, typename ForwardIterator2>
+inline void iter_swap(ForwardIterator1 a, ForwardIterator2 b){
+    typedef typename iterator_traits<ForwardIterator1>::value_type value_type;
+    value_type tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+//lexicographical_compare 字典序排序比较
+template <typename InputIterator1, typename InputIterator2>
+bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2){
+    for( ;first1 != last1 && first2 != last2; ++first1, ++first2){
+        if(*first1 < *first2){
+            return true;
+        }
+        if(*first2 < *first1){
+            return false;
+        }
+    }
+    return first1 == last1 && first2 == last2;
+}
+
+template <typename InputIterator1, typename InputIterator2, typename Compare>
+bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, Compare comp){
+    for( ;first1 != last1 && first2 != last2; ++first1, ++first2){
+        if( comp(*first1, *first2)){
+            return true;
+        }
+        if( comp(*first2, *first1)){
+            return false;
+        }
+    }
+    return first1 == last1 && first2 == last2;
+}
+
+//mismatch,返回两个迭代器分别指向序列中第一个不匹配点
+template <typename InputIterator1, typename InputIterator2>
+std::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1, InputIterator1 last, InputIterator2 first2){
+    while(first1 != last && *first1 == *first2){
+        ++first1;
+        ++first2;
+    }
+    return std::pair<InputIterator1, InputIterator2>(first1, first2);
+}
+
+template <typename InputIterator1, typename InputIterator2, typename BinaryOperation>
+std::pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1, InputIterator1 last, InputIterator2 first2, BinaryOperation bp){
+    while(first1 != last && bp(*first1, *first2)){
+        ++first1;
+        ++first2;
+    }
+    return std::pair<InputIterator1, InputIterator2>(first1, first2);
+}
+
+//set相关算法
+//set_union并集
+template <typename InputIterator1, typename InputIterator2, typename OutputIterator>
+OutputIterator set_union(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, OutputIterator result){
+    while(first1 != last1 && first2 != last2){
+        if(*first1 < *first2){
+            *result = *first1;
+        }
+        else if(*first2 < *first1){
+            *result = *first2;
+        }
+        else{
+            *result = *first1;
+            ++first1;
+            ++first2;
+        }
+        ++result;
+    }
+    return copy(first2, last2, copy(first1, last1, result));
+}
+
+//set_intersection交集
+template <typename InputIterator1, typename InputIterator2, typename OutputIterator>
+OutputIterator set_intersection(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, OutputIterator result){
+    while(first1 != last1 && first2 != last2){
+        if(*first1 < *first2){
+            ++first1;
+        }
+        else if(*first2 < *first1){
+            ++first2;
+        }
+        else{
+            *result = *first1;
+            ++first1;
+            ++first2;
+        }
+        ++result;
+    }
+    return result;
+}
+
+//set_difference差集
+template <typename InputIterator1, typename InputIterator2, typename OutputIterator>
+OutputIterator set_difference(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, OutputIterator result){
+    while(first1 != last1 && first2 != last2){
+        if(*first1 < *first2){
+            *result = *first1;
+            ++first1;
+            ++result;
+        }
+        else if(*first2 < *first1){
+            ++first2;
+        }
+        else{
+            ++first1;
+            ++first2;
+        }
+    }
+    return copy(first1, last1, result);
+}
+
+//set_symmetric_difference对称差集(S1 - S2) U (S2 - S1)
+template <typename InputIterator1, typename InputIterator2, typename OutputIterator>
+OutputIterator set_symmetric_difference(InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2, OutputIterator result){
+    while(first1 != last1 && first2 != last2){
+        if(*first1 < *first2){
+            *result = *first1;
+            ++first1;
+            ++result;
+        }
+        else if(*first2 < *first1){
+            *result = *first2;
+            ++first2;
+            ++result;
+        }
+        else{
+            ++first1;
+            ++first2;
+        }
+    }
+    return copy(first2, last2, copy(first1, last1, result));
+}
+
 
 //lower_boud,返回第一个大于等于target的一个数
 //利用二分来查找左端点

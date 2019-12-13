@@ -3,6 +3,7 @@
 
 CMakeFiles/Algorithmtest.dir/test/AlgorithmTest.cpp.o: ../src/Algorithm/algorithm.h
 CMakeFiles/Algorithmtest.dir/test/AlgorithmTest.cpp.o: ../src/Algorithm/heap_algorithm.h
+CMakeFiles/Algorithmtest.dir/test/AlgorithmTest.cpp.o: ../src/Algorithm/numeric_algo.h
 CMakeFiles/Algorithmtest.dir/test/AlgorithmTest.cpp.o: ../src/Allocator/./construct.h
 CMakeFiles/Algorithmtest.dir/test/AlgorithmTest.cpp.o: ../src/Allocator/alloc.h
 CMakeFiles/Algorithmtest.dir/test/AlgorithmTest.cpp.o: ../src/Allocator/allocator.h

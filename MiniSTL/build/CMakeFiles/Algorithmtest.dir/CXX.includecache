@@ -18,6 +18,10 @@
 ../Functor/stl_function.h
 /home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
 
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/numeric_algo.h
+../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
+
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/./construct.h
 new
 -
@@ -87,6 +91,10 @@ gtest/gtest.h
 /home/chs/my_stl_learning/MiniSTL/src/Algorithm/heap_algorithm.h
 ../src/Container/Sequence/vector.h
 /home/chs/my_stl_learning/MiniSTL/src/Container/Sequence/vector.h
-algorithm
+../src/Algorithm/numeric_algo.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/numeric_algo.h
+../src/Functor/stl_function.h
+/home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
+iostream
 -
 
