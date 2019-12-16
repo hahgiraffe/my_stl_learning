@@ -6,11 +6,27 @@
 
 #IncludeRegexTransform: 
 
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/./algorithm.h
+../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/Iterator/stl_iterator.h
+../Iterator/typetraits.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/Iterator/typetraits.h
+utility
+-
+
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/./heap_algorithm.h
+../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/Iterator/stl_iterator.h
+../Functor/stl_function.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/Functor/stl_function.h
+
 /home/chs/my_stl_learning/MiniSTL/src/Algorithm/algorithm.h
 ../Iterator/stl_iterator.h
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
 ../Iterator/typetraits.h
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/typetraits.h
+utility
+-
 
 /home/chs/my_stl_learning/MiniSTL/src/Algorithm/heap_algorithm.h
 ../Iterator/stl_iterator.h
@@ -21,6 +37,14 @@
 /home/chs/my_stl_learning/MiniSTL/src/Algorithm/numeric_algo.h
 ../Iterator/stl_iterator.h
 /home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
+
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/stl_algo.h
+../Iterator/stl_iterator.h
+/home/chs/my_stl_learning/MiniSTL/src/Iterator/stl_iterator.h
+./heap_algorithm.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/./heap_algorithm.h
+./algorithm.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/./algorithm.h
 
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/./construct.h
 new
@@ -95,6 +119,8 @@ gtest/gtest.h
 /home/chs/my_stl_learning/MiniSTL/src/Algorithm/numeric_algo.h
 ../src/Functor/stl_function.h
 /home/chs/my_stl_learning/MiniSTL/src/Functor/stl_function.h
+../src/Algorithm/stl_algo.h
+/home/chs/my_stl_learning/MiniSTL/src/Algorithm/stl_algo.h
 iostream
 -
 

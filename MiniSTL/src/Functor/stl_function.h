@@ -78,6 +78,9 @@ struct plus : public binary_function<T, T, T>{
     T operator()(const T& x, const T& y) const { return x + y; }
 };
 
+//bind2nd
+
+
 
 }   //namespace MINISTL
 

@@ -7,6 +7,8 @@
 #define MINISTL_SRC_ALGORITHM_ALGORITHM_H
 #include "../Iterator/stl_iterator.h"
 #include "../Iterator/typetraits.h"
+#include <utility>
+
 // #include "../Container/Associative/map.h" //注意依赖的问题
 
 namespace MINISTL{
@@ -291,7 +293,7 @@ inline ForwardIterator __lower_bound(ForwardIterator first, ForwardIterator last
     Distance half;
     ForwardIterator middle;
     while(len > 0){
-    half = len >> 1;
+        half = len >> 1;
         middle = first;
         advance(middle, half);  //middle指向中间位置
         if(*middle < value){
@@ -313,7 +315,6 @@ inline RandomAccessIterator __lower_bound(RandomAccessIterator first, RandomAcce
     RandomAccessIterator middle;
     while (len > 0) {
         half = len >> 1;
-        middle = first;
         middle = first + half;
         if (*middle < value) {
             first = middle + 1;
@@ -333,6 +334,52 @@ inline ForwardIterator lower_bound(ForwardIterator first, ForwardIterator last, 
 }
 
 
+//upper_bound，找到适合插入value的最后一个位置
+template <typename ForwardIterator, typename T, typename Distance>
+ForwardIterator __upper_bound(ForwardIterator first, ForwardIterator last, const T& value, Distance*, forward_iterator_tag){
+    Distance len = 0;
+    len = distance(first, last);
+    Distance half;
+    ForwardIterator middle;
+    while(len > 0){
+        half = len >> 1;
+        middle = first;
+        advance(middle, half);  //middle指向中间位置
+        if(value < *middle){
+            len = half;
+        }
+        else{
+            first = middle;
+            ++first;
+            len = len - half -1;
+        }
+    }
+    return first;
+}
+
+template <typename RandomAccessIterator, typename T, typename Distance>
+RandomAccessIterator __upper_bound(RandomAccessIterator first, RandomAccessIterator last, const T& value, Distance*, random_access_iterator_tag){
+    Distance len = last - first;
+    Distance half;
+    RandomAccessIterator middle;
+    while (len > 0) {
+        half = len >> 1;
+        middle = first + half;
+        if (value < *middle) {
+            len = half;
+        }
+        else{
+            first = middle + 1;
+            len = len - half - 1;
+        }
+    }
+    return first;
+}
+
+template <typename ForwardIterator, typename T>
+inline ForwardIterator upper_bound(ForwardIterator first, ForwardIterator last, const T& value){
+    return __upper_bound(first, last, value, difference_type(first) , iterator_category(first));
+}
 
 }   //namespace MINISTL
 

@@ -55,14 +55,14 @@ void __adjust_heap(RandomAccessIterator first, Distance holeIndex, Distance len,
     __push_heap(first, holeIndex, topIndex, value, comp);
 }
 
-template <typename RandomAccessIterator, typename T, typename Distance, typename Compare>
-inline void __pop_heap(RandomAccessIterator first, RandomAccessIterator last, RandomAccessIterator result, T value, Distance*, const Compare& comp){
+template <typename RandomAccessIterator, typename T, typename Distance, typename Compare = MINISTL::less<typename iterator_traits<RandomAccessIterator>::value_type> >
+inline void __pop_heap(RandomAccessIterator first, RandomAccessIterator last, RandomAccessIterator result, T value, Distance*, const Compare& comp = Compare()){
     *result = *first; //将最后节点值设为头部节点值
     __adjust_heap(first, Distance(0), Distance(last - first), value, comp); //调整整个堆
 }
 
 template <typename RandomAccessIterator, typename T, typename Compare>
-inline void __pop_heap_aux(RandomAccessIterator first, RandomAccessIterator last, T*, const Compare& comp){
+inline void __pop_heap_aux(RandomAccessIterator first, RandomAccessIterator last, T*, const Compare& comp = Compare()){
     __pop_heap(first, last - 1, last - 1, T(*(last - 1)), difference_type(first), comp);
 }
 
