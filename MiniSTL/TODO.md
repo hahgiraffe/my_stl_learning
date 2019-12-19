@@ -23,9 +23,14 @@
 * ~~rb_tree~~
 * map
 * set(还可以在迭代器上赋值，这里没有完成)
+* multimap
+* multiset
+* hashtable
 * unordered_map
 * unordered_set
-4. Algorithm （0/100）
+* unordered_multimap
+* unordered_multiset
+4. Algorithm （80/100）
 * fill
 * fill_n
 * copy

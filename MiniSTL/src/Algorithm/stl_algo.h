@@ -771,15 +771,106 @@ inline void sort(RandomAccessIterator first, RandomAccessIterator last){
     }
 }
 
-//equal_range
+//equal_range 也是二分查找的一个版本，返回可以插入的第一个位置和最后一个位置
+template <typename ForwardIterator, typename T, typename Distance>
+inline std::pair<ForwardIterator, ForwardIterator> 
+__equal_range(ForwardIterator first, ForwardIterator last, const T& value, Distance*, forward_iterator_tag){
+    Distance len = 0;
+    len = distance(first, last);
+    Distance half;
+    ForwardIterator middle, left, right;
+    while(len > 0){
+        half = len >> 1;
+        middle = first;
+        advance(middle, half);
+        if(*middle < value){
+            first = middle;
+            ++first;
+            len = len - half - 1;
+        }
+        else if(value < *middle){
+            len = half;
+        }
+        else{
+            left = lower_bound(first, middle, value);
+            advance(first, len);
+            right = upper_bound(++middle, first, value);
+            return std::pair<RandomAccessIterator, RandomAccessIterator>(left, right);
+        }
+    }
+    return std::pair<RandomAccessIterator, RandomAccessIterator>(left, right);
+}
 
-//inplace_merge
+template <typename RandomAccessIterator, typename T, typename Distance>
+inline std::pair<RandomAccessIterator, RandomAccessIterator>
+__equal_range(RandomAccessIterator first, RandomAccessIterator last, const T& value, Distance*, random_access_iterator_tag){
+    Distance len = last - first;
+    Distance half;
+    RandomAccessIterator middle, left, right;
+    while(len > 0){
+        half = len >> 1;
+        middle = first + half;
+        if(*middle < value){
+            first = middle + 1;
+            len = len - half - 1;
+        }
+        else if(value < *middle){
+            len = half;
+        }
+        else{
+            left = lower_bound(first, middle, value);
+            right = upper_bound(++middle, first + len, value);
+            return std::pair<RandomAccessIterator, RandomAccessIterator>(left, right);
+        }
+    }
+    return std::pair<RandomAccessIterator, RandomAccessIterator>(left, right);
+}
 
-//n_element
+template <typename ForwardIterator, typename T>
+inline std::pair<ForwardIterator, ForwardIterator> equal_range(ForwardIterator first, ForwardIterator last, const T& value){
+    return __equal_range(ForwardIterator first, ForwardIterator last, value, difference_type(first), iterator_category(first));
+}
+
+
+template <typename BidirectionalIterator>
+inline void inplace_merge(BidirectionalIterator first, BidirectionalIterator mid, BidirectionalIterator last){
+    if(first == mid || mid == last) return;
+    __inplace_merge(first, mid, last, value_type(first), difference_type(first));
+}
+
+//n_element 排序区间，使得迭代器指向第n个元素
+template <typename RandomAccessIterator>
+inline void nth_element(RandomAccessIterator first, RandomAccessIterator nth, RandomAccessIterator last){
+    __nth_element(first, nth, last, value_type(first));
+}
+template <typename RandomAccessIterator, typename T>
+void __nth_element(RandomAccessIterator first, RandomAccessIterator nth, RandomAccessIterator last){
+    while(last - first > 3){
+        RandomAccessIterator cut =__unguarded_partition(first, last, T(__median(*first, *(first + (last - first)/2), *(last - 1))));
+        if(cut <= nth){
+            first = cut;
+        }
+        else{
+            last = cut;
+        }
+    }
+    __insertion_sort(first, last);
+}
 
 //merge_sort
-
-
+// template <typename BidirectionalIterator>
+// void mergesort(BidirectionalIterator first, BidirectionalIterator last){
+//     typename iterator_traits<BidirectionalIterator>::difference_type n = distance(first, last);
+//     if(n == 0 || n == 1){
+//         return;
+//     }
+//     else{
+//         BidirectionalIterator mid = first + n/2;
+//         mergesort(first, mid);
+//         mergesort(mid, last);
+//         inplace_merge(first, mid, last);
+//     }
+// }
 
 }   //namespace MINISTL
 
