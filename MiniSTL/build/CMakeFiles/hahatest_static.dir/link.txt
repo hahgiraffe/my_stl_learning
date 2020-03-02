@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libhahatest_static.a  CMakeFiles/hahatest_static.dir/hahatest/hahatest.cc.o
+/usr/bin/ranlib ../lib/libhahatest_static.a

@@ -10,7 +10,7 @@
 #include "../src/Container/Sequence/queue.h"
 #include "../src/Container/Sequence/slist.h"
 #include <algorithm>
-#include "gtest/gtest.h"
+#include "../hahatest/hahatest.h" 
 #include <printf.h>
 
 struct Myclass{
@@ -19,12 +19,12 @@ struct Myclass{
 };
 
 //测试vector,注意要测试每一个成员函数
-TEST(ContainerTest,VectorTest){
+HAHA_TEST(VectorTest){
     printf("%s\n","begin test vector");
     //vector构造函数
     MINISTL::vector<int> vec(3,1000);
     //vec.empty()
-    EXPECT_FALSE(vec.empty());
+    EXPECT_EQ(vec.empty(), false);
     //vec.size()
     EXPECT_EQ(vec.size(),3);
     //vec.capacity()
@@ -71,7 +71,7 @@ TEST(ContainerTest,VectorTest){
 
 }
 
-TEST(ContainerTest, VectorStringTest){
+HAHA_TEST(VectorStringTest){
     printf("begin test vector<string>\n");
     // MINISTL::vector<std::string,MINISTL::allocator<std::string> > my_vec_str;
     // my_vec_str.push_back("asdasd");
@@ -95,12 +95,12 @@ TEST(ContainerTest, VectorStringTest){
 }
 
 
-TEST(ContainerTest, ListTest){
+HAHA_TEST(ListTest){
     printf("%s\n","begin test list");
     //ctor
     MINISTL::list<double> mylist;
     //list.empty()
-    EXPECT_TRUE(mylist.empty());
+    EXPECT_EQ(mylist.empty(), true);
     //list.push_back() && list.push_front()
     for(int i=0;i<500;++i){
         mylist.push_back(static_cast<double>(i));
@@ -108,7 +108,7 @@ TEST(ContainerTest, ListTest){
     for(int i=500;i<1000;++i){
         mylist.push_front(static_cast<double>(i));
     }
-    EXPECT_FALSE(mylist.empty());
+    EXPECT_EQ(mylist.empty(), false);
     //list.size()
     EXPECT_EQ(mylist.size(),1000);
     //list.front() && list.back()
@@ -183,7 +183,7 @@ TEST(ContainerTest, ListTest){
 
 }
 
-TEST(ContainerTest, DequeTest){
+HAHA_TEST(DequeTest){
     printf("%s\n","begin test deque<int>");
     //ctor
     MINISTL::deque<int> mydeque(10,3);
@@ -195,7 +195,7 @@ TEST(ContainerTest, DequeTest){
     EXPECT_EQ(mydeque.back(), 200);
     //deque.size() && deque.empty()
     EXPECT_EQ(mydeque.size(), 12);
-    EXPECT_FALSE(mydeque.empty());
+    EXPECT_EQ(mydeque.empty(), false);
     //deque.pop_back() && deque.pop_front()
     mydeque.pop_back();
     mydeque.pop_front();
@@ -217,7 +217,7 @@ TEST(ContainerTest, DequeTest){
     //deque.clear()
     mydeque.clear();
     EXPECT_EQ(mydeque.size(), 0);
-    EXPECT_TRUE(mydeque.empty());
+    EXPECT_EQ(mydeque.empty(), true);
 
     printf("%s\n", "begin test deque<std::string>");
     MINISTL::deque<std::string> my_string_deque;
@@ -231,7 +231,7 @@ TEST(ContainerTest, DequeTest){
     EXPECT_EQ(my_string_deque[1], "18");
     EXPECT_EQ(my_string_deque.back(), "9");   
     EXPECT_EQ(my_string_deque.front(), "19");
-    EXPECT_FALSE(my_string_deque.empty());
+    EXPECT_EQ(my_string_deque.empty(), false);
     my_string_deque.pop_back();
     my_string_deque.pop_front();
     EXPECT_EQ(my_string_deque.size(), 18);
@@ -244,7 +244,7 @@ TEST(ContainerTest, DequeTest){
     EXPECT_EQ(my_string_deque.size(), 0);
 }
 
-TEST(ContainerTest, StackTest){
+HAHA_TEST(StackTest){
     printf("%s\n","begin test stack");
     MINISTL::stack<int> mystack;
     MINISTL::stack<int> stack_copy;
@@ -259,11 +259,11 @@ TEST(ContainerTest, StackTest){
     mystack.pop();
     EXPECT_EQ(mystack.top(),8);
     EXPECT_EQ(mystack.size(),9);
-    EXPECT_FALSE(mystack.empty());
-    EXPECT_FALSE(mystack == stack_copy);
+    EXPECT_EQ(mystack.empty(), false);
+    EXPECT_EQ(mystack == stack_copy, false);
 }
 
-TEST(ContainerTest, QueueTest){
+HAHA_TEST(QueueTest){
     printf("%s\n","begin test queue");
     MINISTL::queue<double> myqueue;
     MINISTL::queue<double> myqueue_copy;
@@ -279,11 +279,11 @@ TEST(ContainerTest, QueueTest){
     myqueue.pop();
     EXPECT_EQ(myqueue.front(), 1);
     EXPECT_EQ(myqueue.size(), 9);
-    EXPECT_FALSE(myqueue.empty());
-    EXPECT_FALSE(myqueue == myqueue_copy);
+    EXPECT_EQ(myqueue.empty(), false);
+    EXPECT_EQ(myqueue == myqueue_copy, false);
 }
 
-TEST(ContainerTest, PriorityQueueTest){
+HAHA_TEST(PriorityQueueTest){
     printf("%s\n","begin test priority_queue");
     MINISTL::vector<int> myvec;
     for(int i=0; i<10; ++i){
@@ -291,7 +291,7 @@ TEST(ContainerTest, PriorityQueueTest){
     }
     MINISTL::priority_queue<int> mypriority_queue_default;
     MINISTL::priority_queue<int> mypriority_queue(myvec.begin(), myvec.end());
-    EXPECT_FALSE(mypriority_queue.empty());
+    EXPECT_EQ(mypriority_queue.empty(), false);
     EXPECT_EQ(mypriority_queue.size(), 10);
     mypriority_queue.push(222);
     EXPECT_EQ(mypriority_queue.size(), 11);
@@ -309,10 +309,10 @@ TEST(ContainerTest, PriorityQueueTest){
 
 }
 
-TEST(ContainerTest, slistTest){
+HAHA_TEST(slistTest){
     printf("%s\n", "begin test slist");
     MINISTL::slist<int> myslist;
-    EXPECT_TRUE(myslist.empty());
+    EXPECT_EQ(myslist.empty(), true);
     EXPECT_EQ(myslist.size(), 0);
     for(int i=0; i<10; ++i){
         myslist.push_front(i);
@@ -330,13 +330,12 @@ TEST(ContainerTest, slistTest){
     EXPECT_EQ(myslist.size(), 9);
     myslist.clear();
     EXPECT_EQ(myslist.size(), 0);
-    EXPECT_TRUE(myslist.empty());
+    EXPECT_EQ(myslist.empty(), true);
 
 }
 
 
 
 int main(int argc,char *argv[]){
-    ::testing::InitGoogleTest(&argc,argv);
-    return RUN_ALL_TESTS();
+    HAHATEST::run_all_test();
 }

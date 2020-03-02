@@ -137,21 +137,21 @@ struct negate : public unary_function<T, T>{
 
 //逻辑运算 And Or Not
 template <typename T>
-struct logical_and : public binary_function<T, T, boo>{
+struct logical_and : public binary_function<T, T, bool>{
     bool operator() (const T& x, const T& y) const{
         return x && y;
     }
 };
 
 template <typename T>
-struct logical_or : public binary_function<T, T, boo>{
+struct logical_or : public binary_function<T, T, bool>{
     bool operator() (const T& x, const T& y) const{
         return x || y;
     }
 };
 
 template <typename T>
-struct logical_not : public unary_function<T, boo>{
+struct logical_not : public unary_function<T, bool>{
     bool operator() (const T& x) const{
         return !x;
     }
@@ -181,7 +181,7 @@ protected:
     Predicate pred;
 public:
     explicit binary_negate(const Predicate& x) : pred(x) { }
-    bool operator() (const typename Predicate::first_argument_type& x, const Predicate::second_argument_type& y) const {
+    bool operator() (const typename Predicate::first_argument_type& x, const typename Predicate::second_argument_type& y) const {
         return !pred(x, y);
     }
 };
@@ -209,7 +209,7 @@ public:
 template <typename Operation, typename T>
 inline binder1st<Operation> bind1st(const Operation& op, const T& x){
     typedef typename Operation::first_argument_type arg1_type;
-    return binder1st<Operation>(op, arg1_type);
+    return binder1st<Operation>(op, (arg1_type)x);
 }
 
 template <typename Operation>
@@ -229,7 +229,7 @@ public:
 template <typename Operation, typename T>
 inline binder2nd<Operation> bind2nd(const Operation& op, const T& x){
     typedef typename Operation::second_argument_type arg2_type;
-    return binder2nd<Operation>(op, arg2_type);
+    return binder2nd<Operation>(op, (arg2_type)x);
 }
 
 }   //namespace MINISTL

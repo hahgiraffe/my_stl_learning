@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/Allocatortest.dir/hahatest/hahatest.cc.o"
   "CMakeFiles/Allocatortest.dir/test/AllocatorTest.cpp.o"
   "bin/Allocatortest.pdb"
   "bin/Allocatortest"

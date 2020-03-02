@@ -4,13 +4,13 @@
  * @Description: file content
  */
 /* 这里是不是要Container写出来以后才能测试啊 */
-#include "gtest/gtest.h"
+#include "../hahatest/hahatest.h"
+using namespace HAHATEST;
 
-TEST(IteratorTest,IterTest){
+HAHA_TEST(IteratorTest){
     
 }
 
 int main(int argc, char* argv[]){
-    ::testing::InitGoogleTest(&argc,argv);
-    return RUN_ALL_TESTS();
+    run_all_test();
 }

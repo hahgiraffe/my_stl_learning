@@ -187,6 +187,12 @@ MINISTL_BINARY_DIR:STATIC=/home/chs/my_stl_learning/MiniSTL/build
 //Value Computed by CMake
 MINISTL_SOURCE_DIR:STATIC=/home/chs/my_stl_learning/MiniSTL
 
+//Dependencies for target
+hahatest_shared_LIB_DEPENDS:STATIC=
+
+//Dependencies for target
+hahatest_static_LIB_DEPENDS:STATIC=
+
 
 ########################
 # INTERNAL cache entries

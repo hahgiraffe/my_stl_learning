@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/chs/my_stl_learning/MiniSTL/hahatest/hahatest.cc
+hahatest.h
+/home/chs/my_stl_learning/MiniSTL/hahatest/hahatest.h
+vector
+-
+map
+-
+
+/home/chs/my_stl_learning/MiniSTL/hahatest/hahatest.h
+iostream
+-
+cstring
+-
+memory
+-
+

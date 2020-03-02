@@ -7,10 +7,10 @@
 #include <list>
 #include "../src/Allocator/simple_allocator.h"
 #include "../src/Allocator/allocator.h"
-#include "gtest/gtest.h"
+#include "../hahatest/hahatest.h"
 
 //测试simple_allocator
-TEST(AllocatorTest,SimpleAllocatorTest){
+HAHA_TEST(SimpleAllocatorTest){
     std::vector<int, MINISTL::simple_allocator<int> > vec{1,2,3,4,5};
     EXPECT_EQ(vec.size(),5);
     EXPECT_EQ(vec.capacity(),5);
@@ -27,7 +27,7 @@ TEST(AllocatorTest,SimpleAllocatorTest){
 }
 
 //测试可二次分配的allocator，这个部分可能存在内存泄漏
-TEST(AllocatorTest,DoubleAllocatorTest){
+HAHA_TEST(DoubleAllocatorTest){
     std::vector<std::string,MINISTL::allocator<std::string>> vec;
     for(int i=0;i<10;++i){
         vec.push_back(std::to_string(i));
@@ -38,6 +38,5 @@ TEST(AllocatorTest,DoubleAllocatorTest){
 }
 
 int main(int argc,char *argv[]){
-    ::testing::InitGoogleTest(&argc,argv);
-    return RUN_ALL_TESTS();
+    HAHATEST::run_all_test();
 }

@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/AssociativeContainertest.dir/hahatest/hahatest.cc.o"
   "CMakeFiles/AssociativeContainertest.dir/test/AssociativeContainerTest.cpp.o"
   "bin/AssociativeContainertest.pdb"
   "bin/AssociativeContainertest"

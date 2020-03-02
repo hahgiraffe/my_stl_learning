@@ -6,6 +6,22 @@
 
 #IncludeRegexTransform: 
 
+/home/chs/my_stl_learning/MiniSTL/hahatest/hahatest.cc
+hahatest.h
+/home/chs/my_stl_learning/MiniSTL/hahatest/hahatest.h
+vector
+-
+map
+-
+
+/home/chs/my_stl_learning/MiniSTL/hahatest/hahatest.h
+iostream
+-
+cstring
+-
+memory
+-
+
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/alloc.h
 stdlib.h
 -
@@ -51,6 +67,6 @@ list
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/simple_allocator.h
 ../src/Allocator/allocator.h
 /home/chs/my_stl_learning/MiniSTL/src/Allocator/allocator.h
-gtest/gtest.h
-/home/chs/my_stl_learning/MiniSTL/test/gtest/gtest.h
+../hahatest/hahatest.h
+/home/chs/my_stl_learning/MiniSTL/hahatest/hahatest.h
 

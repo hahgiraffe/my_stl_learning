@@ -1,1 +1,1 @@
-/usr/bin/c++    -rdynamic CMakeFiles/Allocatortest.dir/test/AllocatorTest.cpp.o  -o bin/Allocatortest  -L/usr/local/jemalloc/lib -Wl,-rpath,/usr/local/jemalloc/lib -lgtest -lpthread -ljemalloc 
+/usr/bin/c++    -rdynamic CMakeFiles/Allocatortest.dir/hahatest/hahatest.cc.o CMakeFiles/Allocatortest.dir/test/AllocatorTest.cpp.o  -o bin/Allocatortest  -L/usr/local/jemalloc/lib -Wl,-rpath,/usr/local/jemalloc/lib -lpthread -ljemalloc 

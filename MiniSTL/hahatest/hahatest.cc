@@ -49,7 +49,7 @@ void run_all_test(){
         Test* test = tests[i];
         cout << "> begin test: " << test->name() << endl;
         test->run();
-        cout << "< test " << test->name() << "done in " << endl;
+        cout << "< test " << test->name() << " done " << endl;
         ++n;
 
         delete test;

@@ -795,10 +795,10 @@ __equal_range(ForwardIterator first, ForwardIterator last, const T& value, Dista
             left = lower_bound(first, middle, value);
             advance(first, len);
             right = upper_bound(++middle, first, value);
-            return std::pair<RandomAccessIterator, RandomAccessIterator>(left, right);
+            return std::pair<ForwardIterator, ForwardIterator>(left, right);
         }
     }
-    return std::pair<RandomAccessIterator, RandomAccessIterator>(left, right);
+    return std::pair<ForwardIterator, ForwardIterator>(left, right);
 }
 
 template <typename RandomAccessIterator, typename T, typename Distance>
@@ -828,7 +828,7 @@ __equal_range(RandomAccessIterator first, RandomAccessIterator last, const T& va
 
 template <typename ForwardIterator, typename T>
 inline std::pair<ForwardIterator, ForwardIterator> equal_range(ForwardIterator first, ForwardIterator last, const T& value){
-    return __equal_range(ForwardIterator first, ForwardIterator last, value, difference_type(first), iterator_category(first));
+    return __equal_range(first, last, value, difference_type(first), iterator_category(first));
 }
 
 

@@ -5,7 +5,7 @@
  */
 #include <stdio.h>
 #include <string.h>
-#include "gtest/gtest.h"
+#include "../hahatest/hahatest.h"
 #include "../src/Container/Associative/rb_tree.h"
 #include "../src/Functor/stl_function.h"
 #include "../src/Container/Associative/set.h"
@@ -22,12 +22,12 @@
 #include "../src/Container/Associative/hash_fun.h"
 
 //string只测试了set<string>
-TEST(AssociativeContainer, rb_treeTest){
+HAHA_TEST(rb_treeTest){
     //其实rb_tree只能在内部测试与使用
     printf("%s\n","begin to test rb_tree");
     MINISTL::rb_tree<int, int, MINISTL::identity<int>, MINISTL::less<int> > myrbtree;
     MINISTL::rb_tree<int, int, MINISTL::identity<int>, MINISTL::less<int> > myrbtree_copy;
-    EXPECT_TRUE(myrbtree.empty());
+    EXPECT_EQ(myrbtree.empty(), true);
     EXPECT_EQ(myrbtree.size(), 0);
     myrbtree.insert_unique(10);
     myrbtree.insert_unique(7);
@@ -39,7 +39,7 @@ TEST(AssociativeContainer, rb_treeTest){
     myrbtree.insert_unique(13);
     myrbtree.insert_unique(12);
     // myrbtree.insert_unique(14);
-    EXPECT_FALSE(myrbtree.empty());
+    EXPECT_EQ(myrbtree.empty(), false);
     EXPECT_EQ(myrbtree.size(), 9);
     auto ite = myrbtree.begin();
     auto ite2 = myrbtree.end();
@@ -52,7 +52,7 @@ TEST(AssociativeContainer, rb_treeTest){
     //增加operator=的测试
     printf("copy rb_tree : ");
     myrbtree_copy = myrbtree;
-    EXPECT_FALSE(myrbtree_copy.empty());
+    EXPECT_EQ(myrbtree_copy.empty(), false);
     EXPECT_EQ(myrbtree_copy.size(), 9);
     auto ite_copy = myrbtree_copy.begin();
     auto ite2_copy = myrbtree_copy.end();
@@ -81,7 +81,7 @@ TEST(AssociativeContainer, rb_treeTest){
     auto itr = myrbtree.find(12);
     EXPECT_EQ(*itr, 12);
     itr = myrbtree.find(22);
-    EXPECT_EQ(itr, myrbtree.end());
+    EXPECT_EQ(itr == myrbtree.end(), true);
     //erase
     // myrbtree.insert_equal(88);
     myrbtree.erase(88);
@@ -97,18 +97,18 @@ TEST(AssociativeContainer, rb_treeTest){
     printf("\n");
 }
 
-TEST(AssociativeContainer, setTest){
+HAHA_TEST(setTest){
     printf("begin to test set<int>\n");
     //ctor
     MINISTL::set<int> myset;
-    EXPECT_TRUE(myset.empty());
+    EXPECT_EQ(myset.empty(), true);
     EXPECT_EQ(myset.size(), 0);
     MINISTL::vector<int> vec;
     for(int i = 0; i < 10; ++i){
         vec.push_back(i);
     }
     MINISTL::set<int> myset_vec(vec.begin(), vec.end());
-    EXPECT_FALSE(myset_vec.empty());
+    EXPECT_EQ(myset_vec.empty(), false);
     EXPECT_EQ(myset_vec.size(), 10);
     // count    
     EXPECT_EQ(myset_vec.count(5), 1);
@@ -127,10 +127,10 @@ TEST(AssociativeContainer, setTest){
     // erase
     myset_vec.erase(11);
     it = myset_vec.find(11);
-    EXPECT_EQ(it, myset_vec.end());
+    EXPECT_EQ(it == myset_vec.end(), true);
     // clear
     myset_vec.clear();
-    EXPECT_TRUE(myset_vec.empty());
+    EXPECT_EQ(myset_vec.empty(), true);
     EXPECT_EQ(myset_vec.size(), 0);
     printf("begin to test set<std::string>\n");
     MINISTL::vector<std::string> vec_str;
@@ -144,7 +144,7 @@ TEST(AssociativeContainer, setTest){
 
 }
 
-TEST(AssociativeContainer, mapTest){
+HAHA_TEST(mapTest){
     printf("begin to test map<int, string>\n");
     MINISTL::map<int, std::string> mymap;
     mymap.insert({3,"123"});
@@ -155,22 +155,22 @@ TEST(AssociativeContainer, mapTest){
     }
     printf("\n");
     EXPECT_EQ(mymap.size(), 3);
-    EXPECT_FALSE(mymap.empty());
+    EXPECT_EQ(mymap.empty(), false);
     auto it = mymap.find(2);
     if(it == mymap.end()){
         printf("not found\n");
     }
     EXPECT_EQ(it->second, "233");
     mymap.erase(2);
-    EXPECT_EQ(mymap.find(2), mymap.end());
+    EXPECT_EQ(mymap.find(2) == mymap.end(), true);
 }
 
 //这里有一个bug，就是调用insert_equal的时候erase是失败的（insert_unique是正常的）
-TEST(AssociativeContainer, multisetTest){
+HAHA_TEST(multisetTest){
     printf("begin to test multiset<int>\n");
     //ctor
     MINISTL::multiset<int> mymultiset;
-    EXPECT_TRUE(mymultiset.empty());
+    EXPECT_EQ(mymultiset.empty(), true);
     EXPECT_EQ(mymultiset.size(), 0);
     mymultiset.insert(5);
     mymultiset.insert(10);
@@ -193,16 +193,16 @@ TEST(AssociativeContainer, multisetTest){
     // mymultiset.erase(5);
     // EXPECT_EQ(mymultiset.size(), 4);
     // EXPECT_EQ(*mymultiset.find(5), 5);
-    EXPECT_EQ(mymultiset.find(11), mymultiset.end());
+    EXPECT_EQ(mymultiset.find(11) == mymultiset.end(), true);
     // clear
     mymultiset.clear();
-    EXPECT_TRUE(mymultiset.empty());
+    EXPECT_EQ(mymultiset.empty(), true);
     EXPECT_EQ(mymultiset.size(), 0);
 
 }
 
 //这里也有erase的bug
-TEST(AssociativeContainer, multimapTest){
+HAHA_TEST(multimapTest){
     printf("begin to test multimap<int, string>\n");
     MINISTL::multimap<int, std::string> mymap;
     mymap.insert({3,"123"});
@@ -214,7 +214,7 @@ TEST(AssociativeContainer, multimapTest){
     }
     printf("\n");
     EXPECT_EQ(mymap.size(), 4);
-    EXPECT_FALSE(mymap.empty());
+    EXPECT_EQ(mymap.empty(), false);
     auto it = mymap.find(5);
     if(it == mymap.end()){
         printf("not found\n");
@@ -224,7 +224,7 @@ TEST(AssociativeContainer, multimapTest){
     // EXPECT_EQ(mymap.find(5), mymap.end());
 }
 
-TEST(AssociativeContainer, hashtableTest){
+HAHA_TEST(hashtableTest){
     printf("begin to test hashtable<int, int, hash<int>, identity<int>, equal_to<int>, alloc>\n");
     MINISTL::hashtable<int, int, MINISTL::hash<int>, MINISTL::identity<int>, MINISTL::equal_to<int> >
         myht(50, MINISTL::hash<int>(), MINISTL::equal_to<int>());
@@ -281,10 +281,10 @@ void lookup(MINISTL::unordered_set<const char*, MINISTL::hash<const char*>, eqst
     }
 }
 
-TEST(AssociativeContainer, unordered_set){
+HAHA_TEST(unordered_set){
     printf("begin to test unordered_set<int>\n");
     MINISTL::unordered_set<int> myunset;
-    EXPECT_TRUE(myunset.empty());
+    EXPECT_EQ(myunset.empty(), true);
     EXPECT_EQ(myunset.size(), 0);
     myunset.insert(3);
     myunset.insert(196);
@@ -292,7 +292,7 @@ TEST(AssociativeContainer, unordered_set){
     myunset.insert(389);
     myunset.insert(194);
     myunset.insert(387);
-    EXPECT_FALSE(myunset.empty());
+    EXPECT_EQ(myunset.empty(), false);
     EXPECT_EQ(myunset.size(),6); 
     MINISTL::unordered_set<int>::iterator ite1 = myunset.begin();
     MINISTL::unordered_set<int>::iterator ite2 = myunset.end();
@@ -335,7 +335,7 @@ TEST(AssociativeContainer, unordered_set){
     printf("\n");
 }
 
-TEST(AssociativeContainer, unordered_map){
+HAHA_TEST(unordered_map){
     printf("begin to test unordered_map\n");
     // MINISTL::unordered_map<int, int> myunmap;
     // myunmap.insert(MINISTL::pair<int, int>(2,3));
@@ -364,14 +364,14 @@ TEST(AssociativeContainer, unordered_map){
     }
     printf("\n");
     EXPECT_EQ(days.size(), 12);
-    EXPECT_FALSE(days.empty());
+    EXPECT_EQ(days.empty(), false);
     days.insert(MINISTL::pair<const char*, int>("chs",100));
     EXPECT_EQ(days.size(), 13);
     printf("chs is %d\n", days["chs"]);
     
 }
 
-TEST(AssociativeContainer, unordered_multiset){
+HAHA_TEST(unordered_multiset){
     printf("begin to test unordered_multiset\n");
     MINISTL::vector<int> myvec;
     myvec.push_back(12);
@@ -381,7 +381,7 @@ TEST(AssociativeContainer, unordered_multiset){
     myvec.push_back(32);
     MINISTL::unordered_multiset<int> myunmuset(myvec.begin(), myvec.end());
     EXPECT_EQ(myunmuset.size(), 5);
-    EXPECT_FALSE(myunmuset.empty());
+    EXPECT_EQ(myunmuset.empty(), false);
     auto it = myunmuset.begin();
     for(; it != myunmuset.end(); ++it){
         printf("%d ",*it);
@@ -389,7 +389,7 @@ TEST(AssociativeContainer, unordered_multiset){
     printf("\n");
 }
 
-TEST(AssociativeContainer, unordered_multimap){
+HAHA_TEST(unordered_multimap){
     printf("begin to test unordered_multiset\n");
     MINISTL::unordered_multimap<int, int> munorder_multimap_str;
     // munorder_multimap_str.insert(MINISTL::pair<int, int>(123,444));
@@ -400,7 +400,7 @@ TEST(AssociativeContainer, unordered_multimap){
     munorder_multimap_str.insert({153,44564});
     munorder_multimap_str.insert({14,144});
     EXPECT_EQ(munorder_multimap_str.size(), 6);
-    EXPECT_FALSE(munorder_multimap_str.empty());
+    EXPECT_EQ(munorder_multimap_str.empty(), false);
     auto it = munorder_multimap_str.begin();
     for(; it != munorder_multimap_str.end(); ++it){
         printf("%d(%d)",it->first, it->second);
@@ -410,7 +410,6 @@ TEST(AssociativeContainer, unordered_multimap){
 
 
 int main(int argc,char *argv[]){
-    ::testing::InitGoogleTest(&argc,argv);
-    return RUN_ALL_TESTS();
+    HAHATEST::run_all_test();
 }
 

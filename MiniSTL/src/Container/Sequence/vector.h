@@ -9,6 +9,7 @@
 #include "../../Allocator/uninitialized.h"
 #include "../../Algorithm/algorithm.h"
 #include "../../Iterator/stl_iterator.h"
+#include <mutex>
 
 namespace MINISTL{
 
@@ -240,6 +241,57 @@ void vector<T, Alloc>::swap(vector& vec){
     MINISTL::swap(finish, vec.finish);
     MINISTL::swap(end_of_storage, vec.end_of_storage);
 }
+
+//thread_safe vector
+template<typename T, typename Alloc = __default_alloc>
+class vector_s{
+public:
+    typedef typename MINISTL::vector<T, Alloc>::value_type value_type;
+    typedef typename MINISTL::vector<T, Alloc>::pointer pointer;
+    typedef typename MINISTL::vector<T, Alloc>::iterator iterator;
+    typedef typename MINISTL::vector<T, Alloc>::const_iterator const_iterator;
+    typedef typename MINISTL::vector<T, Alloc>::reference reference;
+    typedef typename MINISTL::vector<T, Alloc>::const_reference const_reference;
+    typedef typename MINISTL::vector<T, Alloc>::size_type size_type;
+    typedef typename MINISTL::vector<T, Alloc>::difference_type difference_type;
+    
+    
+    // ctor dtor
+    vector_s() : vec(){ }
+    vector_s(size_type n,const T& value) : vec(n, value) { }
+    template <typename InputIterator>
+    vector_s(InputIterator begin, InputIterator end) : vec(begin, end){ }
+    vector_s(int n,const T& value) : vec(n, value){ }
+    explicit vector_s(size_type n) : vec(n){ }   //单参数要explicit
+    ~vector_s(){ }
+
+    iterator begin() { std::lock_guard<std::mutex> lock(mu); return vec.begin(); }
+    iterator end() { std::lock_guard<std::mutex> lock(mu); return vec.end(); }
+    const_iterator cbegin() const noexcept { std::lock_guard<std::mutex> lock(mu); return vec.cbegin(); }
+    const_iterator cend() const noexcept { std::lock_guard<std::mutex> lock(mu); return vec.cend(); }
+    size_type size() const { std::lock_guard<std::mutex> lock(mu); return vec.size(); }
+    size_type capacity() const { std::lock_guard<std::mutex> lock(mu); return vec.capacity(); }
+    bool empty() const { std::lock_guard<std::mutex> lock(mu); return vec.empty(); }
+    //注意这里返回引用才能更改
+    reference operator[](size_type n) { std::lock_guard<std::mutex> lock(mu); return vec[n]; }
+    
+    reference front() { std::lock_guard<std::mutex> lock(mu); return vec.front(); }
+    reference back() { std::lock_guard<std::mutex> lock(mu); return vec.back(); }
+    void clear() { std::lock_guard<std::mutex> lock(mu); vec.clear(); }
+    void resize(size_type num) { std::lock_guard<std::mutex> lock(mu); vec.resize(num); }
+    void reserve(size_type num) { std::lock_guard<std::mutex> lock(mu); vec.reserve(num); }
+
+   
+    void push_back(const T& x) { std::lock_guard<std::mutex> lock(mu); vec.push_back(x); }
+    void pop_back() { std::lock_guard<std::mutex> lock(mu); vec.pop_back(); }
+    void insert(iterator first, size_type n, const T& value){ std::lock_guard<std::mutex> lock(mu); vec.insert(first, n, value); }
+    iterator erase(iterator first, iterator last){ std::lock_guard<std::mutex> lock(mu); vec.erase(first, last); }
+    iterator erase(iterator pos){ std::lock_guard<std::mutex> lock(mu); vec.erase(pos); }
+private:
+    MINISTL::vector<T, Alloc> vec;
+    mutable std::mutex mu;
+};
+
 
 }   //namespace MINISTL
 

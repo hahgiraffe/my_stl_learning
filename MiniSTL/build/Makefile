@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/chs/my_stl_learning/MiniSTL/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -77,6 +66,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,30 +111,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Algorithmtest
+# Target rules for targets named ThreadSafeTest
 
 # Build rule for target.
-Algorithmtest: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Algorithmtest
-.PHONY : Algorithmtest
+ThreadSafeTest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ThreadSafeTest
+.PHONY : ThreadSafeTest
 
 # fast build rule for target.
-Algorithmtest/fast:
-	$(MAKE) -f CMakeFiles/Algorithmtest.dir/build.make CMakeFiles/Algorithmtest.dir/build
-.PHONY : Algorithmtest/fast
+ThreadSafeTest/fast:
+	$(MAKE) -f CMakeFiles/ThreadSafeTest.dir/build.make CMakeFiles/ThreadSafeTest.dir/build
+.PHONY : ThreadSafeTest/fast
 
 #=============================================================================
-# Target rules for targets named AssociativeContainertest
+# Target rules for targets named hahatest_shared
 
 # Build rule for target.
-AssociativeContainertest: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 AssociativeContainertest
-.PHONY : AssociativeContainertest
+hahatest_shared: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 hahatest_shared
+.PHONY : hahatest_shared
 
 # fast build rule for target.
-AssociativeContainertest/fast:
-	$(MAKE) -f CMakeFiles/AssociativeContainertest.dir/build.make CMakeFiles/AssociativeContainertest.dir/build
-.PHONY : AssociativeContainertest/fast
+hahatest_shared/fast:
+	$(MAKE) -f CMakeFiles/hahatest_shared.dir/build.make CMakeFiles/hahatest_shared.dir/build
+.PHONY : hahatest_shared/fast
 
 #=============================================================================
 # Target rules for targets named Allocatortest
@@ -150,6 +150,45 @@ Allocatortest/fast:
 .PHONY : Allocatortest/fast
 
 #=============================================================================
+# Target rules for targets named AssociativeContainertest
+
+# Build rule for target.
+AssociativeContainertest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 AssociativeContainertest
+.PHONY : AssociativeContainertest
+
+# fast build rule for target.
+AssociativeContainertest/fast:
+	$(MAKE) -f CMakeFiles/AssociativeContainertest.dir/build.make CMakeFiles/AssociativeContainertest.dir/build
+.PHONY : AssociativeContainertest/fast
+
+#=============================================================================
+# Target rules for targets named Algorithmtest
+
+# Build rule for target.
+Algorithmtest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Algorithmtest
+.PHONY : Algorithmtest
+
+# fast build rule for target.
+Algorithmtest/fast:
+	$(MAKE) -f CMakeFiles/Algorithmtest.dir/build.make CMakeFiles/Algorithmtest.dir/build
+.PHONY : Algorithmtest/fast
+
+#=============================================================================
+# Target rules for targets named hahatest_static
+
+# Build rule for target.
+hahatest_static: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 hahatest_static
+.PHONY : hahatest_static
+
+# fast build rule for target.
+hahatest_static/fast:
+	$(MAKE) -f CMakeFiles/hahatest_static.dir/build.make CMakeFiles/hahatest_static.dir/build
+.PHONY : hahatest_static/fast
+
+#=============================================================================
 # Target rules for targets named SequenceContainertest
 
 # Build rule for target.
@@ -161,6 +200,51 @@ SequenceContainertest: cmake_check_build_system
 SequenceContainertest/fast:
 	$(MAKE) -f CMakeFiles/SequenceContainertest.dir/build.make CMakeFiles/SequenceContainertest.dir/build
 .PHONY : SequenceContainertest/fast
+
+hahatest/hahatest.o: hahatest/hahatest.cc.o
+
+.PHONY : hahatest/hahatest.o
+
+# target to build an object file
+hahatest/hahatest.cc.o:
+	$(MAKE) -f CMakeFiles/ThreadSafeTest.dir/build.make CMakeFiles/ThreadSafeTest.dir/hahatest/hahatest.cc.o
+	$(MAKE) -f CMakeFiles/hahatest_shared.dir/build.make CMakeFiles/hahatest_shared.dir/hahatest/hahatest.cc.o
+	$(MAKE) -f CMakeFiles/Allocatortest.dir/build.make CMakeFiles/Allocatortest.dir/hahatest/hahatest.cc.o
+	$(MAKE) -f CMakeFiles/AssociativeContainertest.dir/build.make CMakeFiles/AssociativeContainertest.dir/hahatest/hahatest.cc.o
+	$(MAKE) -f CMakeFiles/Algorithmtest.dir/build.make CMakeFiles/Algorithmtest.dir/hahatest/hahatest.cc.o
+	$(MAKE) -f CMakeFiles/hahatest_static.dir/build.make CMakeFiles/hahatest_static.dir/hahatest/hahatest.cc.o
+	$(MAKE) -f CMakeFiles/SequenceContainertest.dir/build.make CMakeFiles/SequenceContainertest.dir/hahatest/hahatest.cc.o
+.PHONY : hahatest/hahatest.cc.o
+
+hahatest/hahatest.i: hahatest/hahatest.cc.i
+
+.PHONY : hahatest/hahatest.i
+
+# target to preprocess a source file
+hahatest/hahatest.cc.i:
+	$(MAKE) -f CMakeFiles/ThreadSafeTest.dir/build.make CMakeFiles/ThreadSafeTest.dir/hahatest/hahatest.cc.i
+	$(MAKE) -f CMakeFiles/hahatest_shared.dir/build.make CMakeFiles/hahatest_shared.dir/hahatest/hahatest.cc.i
+	$(MAKE) -f CMakeFiles/Allocatortest.dir/build.make CMakeFiles/Allocatortest.dir/hahatest/hahatest.cc.i
+	$(MAKE) -f CMakeFiles/AssociativeContainertest.dir/build.make CMakeFiles/AssociativeContainertest.dir/hahatest/hahatest.cc.i
+	$(MAKE) -f CMakeFiles/Algorithmtest.dir/build.make CMakeFiles/Algorithmtest.dir/hahatest/hahatest.cc.i
+	$(MAKE) -f CMakeFiles/hahatest_static.dir/build.make CMakeFiles/hahatest_static.dir/hahatest/hahatest.cc.i
+	$(MAKE) -f CMakeFiles/SequenceContainertest.dir/build.make CMakeFiles/SequenceContainertest.dir/hahatest/hahatest.cc.i
+.PHONY : hahatest/hahatest.cc.i
+
+hahatest/hahatest.s: hahatest/hahatest.cc.s
+
+.PHONY : hahatest/hahatest.s
+
+# target to generate assembly for a file
+hahatest/hahatest.cc.s:
+	$(MAKE) -f CMakeFiles/ThreadSafeTest.dir/build.make CMakeFiles/ThreadSafeTest.dir/hahatest/hahatest.cc.s
+	$(MAKE) -f CMakeFiles/hahatest_shared.dir/build.make CMakeFiles/hahatest_shared.dir/hahatest/hahatest.cc.s
+	$(MAKE) -f CMakeFiles/Allocatortest.dir/build.make CMakeFiles/Allocatortest.dir/hahatest/hahatest.cc.s
+	$(MAKE) -f CMakeFiles/AssociativeContainertest.dir/build.make CMakeFiles/AssociativeContainertest.dir/hahatest/hahatest.cc.s
+	$(MAKE) -f CMakeFiles/Algorithmtest.dir/build.make CMakeFiles/Algorithmtest.dir/hahatest/hahatest.cc.s
+	$(MAKE) -f CMakeFiles/hahatest_static.dir/build.make CMakeFiles/hahatest_static.dir/hahatest/hahatest.cc.s
+	$(MAKE) -f CMakeFiles/SequenceContainertest.dir/build.make CMakeFiles/SequenceContainertest.dir/hahatest/hahatest.cc.s
+.PHONY : hahatest/hahatest.cc.s
 
 test/AlgorithmTest.o: test/AlgorithmTest.cpp.o
 
@@ -270,18 +354,51 @@ test/SequenceContainerTest.cpp.s:
 	$(MAKE) -f CMakeFiles/SequenceContainertest.dir/build.make CMakeFiles/SequenceContainertest.dir/test/SequenceContainerTest.cpp.s
 .PHONY : test/SequenceContainerTest.cpp.s
 
+test/ThreadSafeTest.o: test/ThreadSafeTest.cpp.o
+
+.PHONY : test/ThreadSafeTest.o
+
+# target to build an object file
+test/ThreadSafeTest.cpp.o:
+	$(MAKE) -f CMakeFiles/ThreadSafeTest.dir/build.make CMakeFiles/ThreadSafeTest.dir/test/ThreadSafeTest.cpp.o
+.PHONY : test/ThreadSafeTest.cpp.o
+
+test/ThreadSafeTest.i: test/ThreadSafeTest.cpp.i
+
+.PHONY : test/ThreadSafeTest.i
+
+# target to preprocess a source file
+test/ThreadSafeTest.cpp.i:
+	$(MAKE) -f CMakeFiles/ThreadSafeTest.dir/build.make CMakeFiles/ThreadSafeTest.dir/test/ThreadSafeTest.cpp.i
+.PHONY : test/ThreadSafeTest.cpp.i
+
+test/ThreadSafeTest.s: test/ThreadSafeTest.cpp.s
+
+.PHONY : test/ThreadSafeTest.s
+
+# target to generate assembly for a file
+test/ThreadSafeTest.cpp.s:
+	$(MAKE) -f CMakeFiles/ThreadSafeTest.dir/build.make CMakeFiles/ThreadSafeTest.dir/test/ThreadSafeTest.cpp.s
+.PHONY : test/ThreadSafeTest.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... Algorithmtest"
-	@echo "... AssociativeContainertest"
+	@echo "... ThreadSafeTest"
+	@echo "... hahatest_shared"
 	@echo "... Allocatortest"
+	@echo "... AssociativeContainertest"
+	@echo "... rebuild_cache"
+	@echo "... Algorithmtest"
+	@echo "... hahatest_static"
 	@echo "... SequenceContainertest"
+	@echo "... hahatest/hahatest.o"
+	@echo "... hahatest/hahatest.i"
+	@echo "... hahatest/hahatest.s"
 	@echo "... test/AlgorithmTest.o"
 	@echo "... test/AlgorithmTest.i"
 	@echo "... test/AlgorithmTest.s"
@@ -294,6 +411,9 @@ help:
 	@echo "... test/SequenceContainerTest.o"
 	@echo "... test/SequenceContainerTest.i"
 	@echo "... test/SequenceContainerTest.s"
+	@echo "... test/ThreadSafeTest.o"
+	@echo "... test/ThreadSafeTest.i"
+	@echo "... test/ThreadSafeTest.s"
 .PHONY : help
 
 

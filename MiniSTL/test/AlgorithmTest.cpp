@@ -4,16 +4,17 @@
  * @Description: 测试算法
  */
 #include <stdio.h>
-#include "gtest/gtest.h"
+#include "../hahatest/hahatest.h" 
 #include "../src/Algorithm/heap_algorithm.h"
 #include "../src/Container/Sequence/vector.h"
 #include "../src/Algorithm/numeric_algo.h"
 #include "../src/Functor/stl_function.h"
 #include "../src/Algorithm/stl_algo.h"
 #include <iostream>
+#include <iterator>
 
 
-TEST(AlgorithmTest, HeapTest){
+HAHA_TEST(HeapTest){
     printf("%s\n","begin test heap_algorithm");
     MINISTL::vector<int> vec;
     for(int i=0; i<10; ++i){
@@ -40,7 +41,7 @@ TEST(AlgorithmTest, HeapTest){
     printf("\n");
 }
 
-TEST(AlgorithmTest, NumericTest){
+HAHA_TEST(NumericTest){
     printf("begin test Numeric\n");
     int ia[5] = {1,2,3,4,5};
     MINISTL::vector<int> myvec(ia, ia+5);
@@ -77,7 +78,7 @@ private:
 };
 int even_by_two::_x = 0;
 
-TEST(AlgorithmTest, BaseAlgo){
+HAHA_TEST(BaseAlgo){
     printf("begin test basealgo\n");
     int ia[] = {0, 1, 2, 3, 4, 5, 6, 6, 6, 7, 8};
     MINISTL::vector<int> myvec{ia, ia+sizeof(ia)/sizeof(int)};
@@ -99,7 +100,7 @@ TEST(AlgorithmTest, BaseAlgo){
     
 }
 
-TEST(AlgorithmTest, ExtendAlgo){
+HAHA_TEST(ExtendAlgo){
     printf("begin test extendalgo\n");
     int ia[] = {1,2,3,33,794,5,109,3123,44};
     MINISTL::vector<int> myvec{ia, ia+9};
@@ -119,6 +120,5 @@ TEST(AlgorithmTest, ExtendAlgo){
 }
 
 int main(int argc,char *argv[]){
-    ::testing::InitGoogleTest(&argc,argv);
-    return RUN_ALL_TESTS();
+    HAHATEST::run_all_test();
 }

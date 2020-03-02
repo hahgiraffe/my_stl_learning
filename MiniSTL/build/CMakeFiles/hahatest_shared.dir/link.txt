@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC   -shared -Wl,-soname,libhahatest_shared.so -o ../lib/libhahatest_shared.so CMakeFiles/hahatest_shared.dir/hahatest/hahatest.cc.o  -L/usr/local/jemalloc/lib 
